@@ -27,9 +27,9 @@ class User
   field :current_sign_in_ip, :type => String
   field :last_sign_in_ip,    :type => String
 
-  has_many :leagues, autosave: true
+  has_many :fantasy_leagues, autosave: true
   
 
   attr_accessible :password, :password_confirmation, :remember_me
-  accepts_nested_attributes_for :leagues, :allow_destroy => true
+  accepts_nested_attributes_for :fantasy_leagues, :allow_destroy => true
 end

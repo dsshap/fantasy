@@ -1,13 +1,14 @@
-class League
+class FantasyLeague
 
   include Mongoid::Document
   include Mongoid::Timestamps
 
   field :name
 
-  #has_and_belongs_to_many :users, as: :participants, autosave: true
-  embeds_many :weeks, cascade_callbacks: true
+  embeds_many :weeks, class_name: 'FantasyWeek', cascade_callbacks: true
+
   embeds_many :participants, cascade_callbacks: true
+
 
   attr_accessible :name
   accepts_nested_attributes_for :weeks, :participants, :allow_destroy => true

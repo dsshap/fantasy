@@ -3,6 +3,8 @@ class Participant
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  embedded_in :fantasy_league
+
   field :user_id,       type: Moped::BSON::ObjectId
   field :is_owner,      type: Boolean,                  default: false
 
