@@ -1,0 +1,10 @@
+%h2 Change Your Password
+= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put, class: 'form-horizontal no-label-form'  }) do |f|
+  = f.error_notification
+  = f.input :reset_password_token, :as => :hidden
+  = f.full_error :reset_password_token
+  .form-inputs
+    = f.input :password, :required => true, label: false, placeholder: "New password"
+    = f.input :password_confirmation, :required => true, label: false, placeholder: "Confirm your new password"
+    = f.button :submit, "Change my password", class 'btn btn-large btn-primary'
+= render "devise/shared/links"

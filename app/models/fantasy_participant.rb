@@ -1,4 +1,4 @@
-class Participant
+class FantasyParticipant
 
   include Mongoid::Document
   include Mongoid::Timestamps

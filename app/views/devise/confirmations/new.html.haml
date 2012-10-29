@@ -1,0 +1,7 @@
+%h2 Resend Confirmation Instructions
+= simple_form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post, class: 'form-horizontal no-label-form' }) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :email, :required => true, label: false, placeholder: "Email"
+    = f.button :submit, "Resend confirmation instructions", class: 'btn btn-large btn-primary'
+= render "devise/shared/links"

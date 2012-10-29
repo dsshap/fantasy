@@ -30,6 +30,10 @@ class User
   has_many :fantasy_leagues, autosave: true
   
 
-  attr_accessible :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me
   accepts_nested_attributes_for :fantasy_leagues, :allow_destroy => true
+
+  def leagues_belong_to
+    FantasyLeague.where(status: :active).select {|league| league.is_participant?(self)}
+  end
 end

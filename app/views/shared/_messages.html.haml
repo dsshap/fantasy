@@ -1,0 +1,14 @@
+- flash.each do |type, message|
+  .alert.alert-message.fade.in{ 'data-alert' => 'alert', class: flash_type(type) }
+    %button.close{ "data-dismiss" => "alert" } ×
+
+    - if message.is_a?(Array)
+      - if message.length == 1
+        %h5= message.first
+      - else
+        %h5 Please correct the following errors:
+        %ul
+          - message.each do |individual_message|
+            %li= individual_message
+    - else
+      %h5= message

@@ -1,0 +1,17 @@
+.row
+  .span12
+  %h2
+    = @fantasy_league.name
+  - if @league_owner
+    %h6
+      = link_to "edit", edit_fantasy_league_path(@fantasy_league)
+  .well
+    
+
+
+= content_for :debug do
+  = "league_owner: #{@league_owner}"
+  %br
+  = "Week: #{@week.id}"
+  %br
+  = "Team: #{@team.id}"

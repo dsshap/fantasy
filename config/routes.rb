@@ -5,6 +5,25 @@ Fantasy::Application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
 
+  devise_for :users
+
+  authenticated :user do
+    root :to => 'dashboard#show'
+  end
+
+  root :to => "static#home"
+
+  match '/dashboard' => 'dashboard#show', via: :get, as: :dashboard
+
+  resources :fantasy_leagues, except: :index do
+    resources :fantasy_teams, only: [:show] do
+    end
+  end
+
+  %w[home contact faq].each do |page|
+    get page => 'static#'+page
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

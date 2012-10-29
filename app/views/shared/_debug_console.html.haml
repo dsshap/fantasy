@@ -1,0 +1,13 @@
+.container
+  .hero-unit.white
+    %ul
+      - session.each do |var|
+        %li
+          = var.inspect
+      %li
+        User info:
+        = current_user.to_json
+      %li
+        User Signed in:
+        = user_signed_in?
+    = yield :debug

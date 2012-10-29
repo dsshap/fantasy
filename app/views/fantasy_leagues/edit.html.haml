@@ -1,0 +1,9 @@
+%h2
+  Update League Settings
+= simple_form_for(@fantasy_league, :html => { :method => :put, class: 'form-horizontal ' }) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :name, :required => true
+    = f.button :submit, "Update", class: 'btn btn-large btn-primary'
+    or
+    = link_to "Cancel", :back, class: ''

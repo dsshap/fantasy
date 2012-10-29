@@ -34,4 +34,13 @@ module ApplicationHelper
       type.to_s
     end
   end
+  def league_tab
+    label = ""
+    unless current_user.leagues_belong_to.count.zero?
+      label << "Leagues"
+    else
+      label << "League"
+    end
+    link_to label, nil
+  end
 end

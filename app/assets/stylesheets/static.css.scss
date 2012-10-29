@@ -1,0 +1,43 @@
+body{
+  padding-bottom: 40px;
+  padding-top: 60px;
+}
+
+.sign_in_form_drop_down {
+  width: 195px;
+
+  .control-group {
+    margin-bottom: 0px;
+  }
+
+  .controls {
+    margin-left:0px;
+  }
+
+  > div {
+    margin-top:10px;
+  }
+
+  input {
+    width:160px;
+    margin-left: 10px;
+  }
+
+  input.btn[type="submit"]{
+    width: 174px;
+  }
+
+  input[type="checkbox"] {
+    width:35px;
+    margin-bottom: 10px;
+  }
+
+}
+
+.no-label-form{
+
+  .controls{
+    margin-left: 0px;
+  }
+
+}

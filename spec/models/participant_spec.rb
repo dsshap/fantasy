@@ -24,7 +24,7 @@ describe Participant do
 
   context 'player selection' do
 
-    it 'should add '
+    # it 'should add '
   end
 
 end
