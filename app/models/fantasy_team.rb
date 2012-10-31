@@ -23,6 +23,10 @@ class FantasyTeam
     end
   end
 
+  def name
+    'team: ' + participant.user.email
+  end
+
   def participant_can_only_make_one_team_per_week
     unless fantasy_week.can_make_team?(participant)
       errors.add(:participant, 'user already has a team for this week')
@@ -35,14 +39,14 @@ class FantasyTeam
     end
   end
 
-  def participant=(user)
-    if user.class.name.eql?('User')
-      self.participant_id = user.id
+  def participant=(participant)
+    if participant.class.name.eql?('FantasyParticipant')
+      self.participant_id = participant.user.id
     end
   end
 
   def participant
-    @participant ||= User.find(participant_id) rescue nil
+    @participant ||= fantasy_week.fantasy_league.participants.where(user_id: participant_id).first rescue nil
   end
 
 

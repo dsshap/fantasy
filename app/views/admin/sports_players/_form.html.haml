@@ -1,0 +1,31 @@
+= simple_form_for(@sports_player, :url => admin_sports_league_sports_week_sports_player_path(@sports_league, @sports_week, @sports_player), :html => { :method => :put, class: 'formtastic'}) do |f|
+  = f.error_notification
+  %fieldset.inputs
+    %ol
+      %li.string.input.stringish
+        %label.label
+        = f.input :name
+      %li.string.input.stringish
+        %label.label
+        = f.input :team
+      %li.string.input.stringish
+        %label.label
+        = f.input :position
+      %li.string.input.stringish
+        %label.label
+        = f.input :number
+      %li.string.input.stringish
+        %label.label
+        = f.input :status
+  %fieldset.actions
+    %ol
+      %li.action.input_action
+        = f.button :submit, "Update player", class: 'btn btn-large btn-primary'
+      %li.cancel
+        = link_to "Cancel", :back, class: 'btn btn-large'
+
+  / .form-inputs
+  /   = f.input :week_number, :required => true
+  /   = f.input :status, :required => true
+  /   = f.button :submit, "Update", class: 'btn btn-large btn-primary'
+  /   = link_to "Cancel", :back, class: 'btn btn-large'

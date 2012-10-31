@@ -1,39 +1,38 @@
 ActiveAdmin.register FantasyWeek do
-  actions :show, :edit, :update
+  actions :none
+  config.clear_action_items!
+  menu false
 
   controller do
-
+    respond_to *Mime::SET.map(&:to_sym)
     def show
-      @fantasy_week = get_week
+      @fantasy_week = FantasyLeague.find(params[:fantasy_league_id]).weeks.find(params[:id])
     end
 
     def edit
-      puts "In edit"
-      @fantasy_week = get_week
+      @fantasy_league = FantasyLeague.find(params[:fantasy_league_id])
+      @fantasy_week = @fantasy_league.weeks.find(params[:id])
     end
 
-
-
-
-    def get_week
-      fantasy_week = nil
-      FantasyLeague.where(status: :active).each do |league|
-        league.weeks.each do |week|
-          if week.id.to_s.eql?(params[:id])
-            fantasy_week = week
-            break
-          end
-        end
-        unless fantasy_week.nil?
-          break
-        end
+    def update
+      fantasy_week = FantasyLeague.find(params[:fantasy_league_id]).weeks.find(params[:id])
+      fantasy_week.update_attributes params[:fantasy_week]
+      if fantasy_week.save!
+        respond_with fantasy_week, :location => admin_fantasy_league_fantasy_week_path(params[:fantasy_league_id], params[:id])
+      else
+        respond_with fantasy_week, :location => edit_admin_fantasy_league_fantasy_week_path(params[:fantasy_league_id], params[:id])
       end
-      fantasy_week
     end
 
   end
 
-  show :title => :week_number do # "Week #{:id} for leage: #{:fantasy_league}" do
+  action_item :only => :show do
+    link_to("Edit Fantasy Week", edit_admin_fantasy_league_fantasy_week_path(params[:fantasy_league_id], fantasy_week))
+  end
+
+  form :partial => "form"
+
+  show do
     attributes_table do
       row :id 
       row(:fantasy_league){|week| week.fantasy_league.name}
@@ -45,8 +44,8 @@ ActiveAdmin.register FantasyWeek do
 
     panel "Teams" do
       table_for fantasy_week.teams do
-        column(:id){|team| link_to team.id, nil }
-        column(:participant){|team| link_to team.participant.email, admin_user_path(team.participant) }
+        column(:id){|team| link_to team.id, admin_fantasy_league_fantasy_week_fantasy_team_path(team.fantasy_week.fantasy_league, team.fantasy_week, team) }
+        column(:participant){|team| link_to team.participant.user.email, admin_user_path(team.participant) }
         column :status
         column :updated_at
         column :created_at
@@ -54,13 +53,5 @@ ActiveAdmin.register FantasyWeek do
     end
   end
 
-  form do |f|
-   f.inputs "Fantasy Week Details" do
-     f.input :id
-     f.input :week_number
-     f.input :status
-   end
-   #TODO need buttons
- end
   
 end

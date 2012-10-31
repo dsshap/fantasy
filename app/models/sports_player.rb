@@ -1,7 +1,7 @@
 class SportsPlayer
 
   include Mongoid::Document
-  include Mongoid::Timestamps::Created
+  include Mongoid::Timestamps
 
   embedded_in :sports_week
 

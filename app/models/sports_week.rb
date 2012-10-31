@@ -12,13 +12,19 @@ class SportsWeek
   attr_accessible :week_number
   accepts_nested_attributes_for :players, :allow_destroy => true
 
-  before_create :assign_week_number
-
-  state_machine :status, :initial => :active do
+  state_machine :status, :initial => :pending do
     after_transition :on => :complete, :do => :increment_week_number
+    before_transition :on => :active, :do => :assign_week_number
+    event :active do
+      transition :pending => :active
+    end
     event :complete do
       transition :active => :completed
     end
+  end
+
+  def name
+    "Week: #{week_number}"
   end
 
   def assign_week_number

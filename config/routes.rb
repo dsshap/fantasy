@@ -1,5 +1,28 @@
 Fantasy::Application.routes.draw do
-  devise_for :users
+
+   namespace :admin do
+
+    resources :fantasy_leagues do
+
+      resources :fantasy_weeks, :only => [:show, :edit, :update] do
+        resources :fantasy_teams, :only => [:show, :edit, :update] do
+        end
+      end
+      get :new_fantasy_week
+    end
+
+    resources :sports_leagues do
+      resources :sports_weeks, :only => [:show, :edit, :update, :destroy] do
+        resources :sports_players do
+      #     resources :sports_statistics do
+      #     end
+        end
+        get :activate_next_week
+      end
+      get :new_sports_week
+    end
+
+   end
 
   ActiveAdmin.routes(self)
 

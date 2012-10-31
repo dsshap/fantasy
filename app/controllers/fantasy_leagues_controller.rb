@@ -17,14 +17,10 @@ class FantasyLeaguesController < ApplicationController
 
   def show
     @fantasy_league = FantasyLeague.find(params[:id])
-    @league_owner = current_user.fantasy_leagues.collect(&:id).include?(@fantasy_league.id)
+    @participant = @fantasy_league.participants.where(user_id: current_user.id).first
+    @league_owner = @participant.is_owner
     @week = @fantasy_league.current_week
-    @team = nil
-    unless @week.has_team?(current_user)
-      @team = @week.teams.create! participant: current_user
-    else
-      @team = @week.current_team(current_user)
-    end
+    @team = @week.current_team(@participant)
   end
 
   def edit

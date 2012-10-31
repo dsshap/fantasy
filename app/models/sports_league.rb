@@ -17,10 +17,21 @@ class SportsLeague
 
   validates_presence_of :name
 
+  after_create :create_initial_week
+
   state_machine :status, :initial => :active do
     event :finish do
       transition :active => :finished
     end
+  end
+
+  def create_initial_week
+    week = weeks.create!
+    week.active
+  end
+
+  def current_week
+    weeks.where(week_number: current_week_number).first
   end
 
   def increment_current_week_number

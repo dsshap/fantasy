@@ -27,11 +27,15 @@ class FantasyLeague
   end
 
   def add_owner_as_participant
-    participants.create user: user, is_owner: true
+    participant = participants.create user: user, is_owner: true
+    participant.active
   end
 
   def create_initial_week
-    weeks.create!
+    week = weeks.create!
+    participants.where(status: :active).each do |participant|
+      week.teams.create! participant: participant
+    end
   end
 
   def current_week
@@ -47,7 +51,7 @@ class FantasyLeague
   end
 
   def is_participant?(participant)
-    count = participants.where(user_id: participant.id).count
+    count = participants.where(user_id: participant.user.id).count
     !count.zero?
   end
 

@@ -12,6 +12,15 @@ class FantasyParticipant
 
   validates_presence_of :user_id
 
+  state_machine :status, :initial => :pending do
+    event :active do
+      transition :pending => :active
+    end
+    event :complete do
+      transition :active => :completed
+    end
+  end
+
   def user=(user)
     if user.class.name.eql?('User')
       self.user_id = user.id

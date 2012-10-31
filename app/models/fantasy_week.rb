@@ -21,9 +21,13 @@ class FantasyWeek
     end
   end
 
+  def name
+    "Week: #{week_number}"
+  end
+
   def can_make_team?(participant)
-    count = teams.where(participant_id: participant.id).count
-    puts "count: #{count}"
+    count = teams.where(participant_id: participant.user.id).count
+
     if count == 0 or count == 1 #can be one because its counting itself
       true
     else
@@ -40,8 +44,8 @@ class FantasyWeek
   end
 
   def current_team(participant)
-    tmp_teams = teams.where(participant_id: participant.id)
-    if tmp_teams.count.zero?
+    tmp_teams = teams.where(participant_id: participant.user.id)
+    if tmp_teams.empty?
       nil
     else
       tmp_teams.first

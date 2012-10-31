@@ -4,11 +4,10 @@ describe SportsLeague do
 
   context 'creation' do
 
-    it 'should not be a valid name' do
+    it 'should be a valid name' do
       league = SportsLeague.new
 
-      league.should_not be_valid
-      league.errors[:name].should include('can\'t be blank')
+      league.should be_valid
     end
 
     it 'should create league' do
@@ -17,9 +16,9 @@ describe SportsLeague do
       league.current_week_number.should eq(1)
     end
 
-    it 'should create a new week' do
+    it 'should have created an initial week' do
       league = SportsLeague.create name: "test sport"
-      league.weeks.create
+
 
       league.weeks.count.should eq(1)
       league.weeks.first.week_number.should eq(1)
@@ -28,7 +27,7 @@ describe SportsLeague do
 
     it 'should add a player to a week' do
       league = SportsLeague.create name: "test sport"
-      week = league.weeks.create
+      week = league.weeks.first
       week.players.create name: 'john doe', team: 'fake team', number: '0'
 
       league.weeks.first.players.count.should eq(1)
@@ -41,7 +40,7 @@ describe SportsLeague do
 
   it 'should add a statistic to a player' do
     league = SportsLeague.create name: "test sport"
-    week = league.weeks.create
+    week = league.weeks.first
     player = week.players.create name: 'john doe', team: 'fake team', number: '0'
     player.stats.create category: 'td', value: 1
 
@@ -53,6 +52,7 @@ describe SportsLeague do
   it 'should increment current week number' do
     league = SportsLeague.create name: "test sport"
     week = league.weeks.create
+    week.active
     week.complete
 
     league.current_week_number.should eq(2)
