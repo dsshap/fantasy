@@ -38,10 +38,18 @@ Fantasy::Application.routes.draw do
 
   match '/dashboard' => 'dashboard#show', via: :get, as: :dashboard
 
-  resources :fantasy_leagues, except: :index do
-    resources :fantasy_teams, only: [:show] do
+  resources :fantasy_leagues, except: :delete do
+    resources :fantasy_teams, only: [:show, :edit, :update] do
+
     end
   end
+
+  post '/teams' => 'fantasy_teams#index'
+  post '/team' => 'fantasy_teams#show'
+
+  # resources :fantasy_teams, only: [:index, :show] do
+
+  # end
 
   %w[home contact faq].each do |page|
     get page => 'static#'+page

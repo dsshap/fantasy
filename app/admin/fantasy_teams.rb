@@ -46,6 +46,8 @@ ActiveAdmin.register FantasyTeam do
 
     panel "Players" do
       table_for fantasy_team.players do
+        column(:player) {|f_player| f_player.player }
+        column(:postition){|f_player| f_player.position.upcase}
         # column(:id){|team| link_to team.id, nil }
         # column(:participant){|team| link_to team.participant.email, admin_user_path(team.participant) }
         # column :status

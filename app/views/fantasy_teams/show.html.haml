@@ -1,0 +1,52 @@
+.row
+  .span12
+    %h2
+      = "Team #{@team.participant.user.email_prefix}"
+    .well
+      %table.table.table-bordered.table-team
+        %thead
+          %tr
+            %th(colspan=3)
+            %th(colspan=3){style: "text-align: center;"}
+              Passing
+            %th(colspan=2){style: "text-align: center;"}
+              Rushing
+            %th(colspan=3){style: "text-align: center;"}
+              Receiving
+            %th(colspan=2)
+          %tr
+            %th
+              Position
+            %th
+              Player
+            %th
+              Opponent
+            %th
+              Yards
+            %th
+              TDs
+            %th
+              INTs
+            %th
+              Yards
+            %th
+              TDs
+            %th
+              Receptions
+            %th
+              Yards
+            %th
+              TDs
+            %th
+              Fumbles
+            %th
+              Total Points
+        %tbody
+          - @team.players.each do |f_player|
+            %tr
+              %td
+                = f_player.position.upcase
+              %td
+                = player_name(f_player.player)
+%p
+  = @team.to_json

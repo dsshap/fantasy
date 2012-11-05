@@ -21,6 +21,7 @@ class FantasyParticipant
     end
   end
 
+
   def user=(user)
     if user.class.name.eql?('User')
       self.user_id = user.id

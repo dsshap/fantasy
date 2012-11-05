@@ -53,11 +53,22 @@ describe FantasyLeague do
       user = FactoryGirl.create(:user)
       league = user.fantasy_leagues.create name: "Test League Name"
 
-
       league.weeks.first.teams.count.should eq(1)
       league.weeks.first.teams.first.participant.user.id.should eq(league.participants.first.user.id)
       league.weeks.first.week_number.should eq(1)
     end
+
+    it 'should create 4 players for a team' do
+      user = FactoryGirl.create(:user)
+      league = user.fantasy_leagues.create name: "Test League Name"
+
+      league.weeks.first.teams.first.players.count.should eql(4)
+      league.weeks.first.teams.first.players.qb.should_not be_nil
+      league.weeks.first.teams.first.players.rb.should_not be_nil
+      league.weeks.first.teams.first.players.wr_te.count.should eql(2)
+    end
+
+
 
     # it 'should not be valid team for participant not in league' do
     #   user = FactoryGirl.create(:user)
@@ -112,9 +123,10 @@ describe FantasyLeague do
     f_league = create_fantasy_league
     s_player = s_league.weeks.first.players.first
     f_team = f_league.weeks.first.teams.first
-    f_player = f_team.players.create player: s_player, position: 'QB'
+    f_team.players.qb.player = s_player
 
-    f_team.players.first.player.id.should eq(s_player.id)
+
+    f_team.players.qb.player.id.should eq(s_player.id)
   end
 
 end

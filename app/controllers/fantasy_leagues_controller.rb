@@ -17,10 +17,18 @@ class FantasyLeaguesController < ApplicationController
 
   def show
     @fantasy_league = FantasyLeague.find(params[:id])
-    @participant = @fantasy_league.participants.where(user_id: current_user.id).first
-    @league_owner = @participant.is_owner
-    @week = @fantasy_league.current_week
-    @team = @week.current_team(@participant)
+    @current_user_participant = @fantasy_league.participants.where(user_id: current_user.id).first
+    @league_owner = @current_user_participant.is_owner
+    unless params[:week_number].nil? or (params[:week_number].to_i > @fantasy_league.current_week_number or params[:week_number].to_i < 0)
+      puts "good week number"
+      @week = @fantasy_league.weeks.where(week_number: params[:week_number]).first
+    end
+
+    if @week.nil?
+      @week = @fantasy_league.current_week
+    end
+    
+    @team = @week.current_team(@current_user_participant)
   end
 
   def edit

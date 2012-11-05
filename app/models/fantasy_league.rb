@@ -10,7 +10,11 @@ class FantasyLeague
   field :sport,                    default: 'football'
 
   embeds_many :weeks, class_name: 'FantasyWeek', cascade_callbacks: true
-  embeds_many :participants, class_name: 'FantasyParticipant', cascade_callbacks: true
+  embeds_many :participants, class_name: 'FantasyParticipant', cascade_callbacks: true do
+    def find_by_user(user)
+      where(status: :active, user_id: user.id).first
+    end
+  end
 
   attr_accessible :name, :current_week_number
   accepts_nested_attributes_for :weeks, :participants, :allow_destroy => true

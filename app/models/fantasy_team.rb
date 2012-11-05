@@ -7,20 +7,41 @@ class FantasyTeam
 
   field :participant_id,        type: Moped::BSON::ObjectId
 
-  embeds_many :players, class_name: 'FantasyPlayer', cascade_callbacks: true
+  embeds_many :players, class_name: 'FantasyPlayer', cascade_callbacks: true do
+
+    def qb
+      where(position: 'qb').first
+    end
+
+    def rb
+      where(position: 'rb').first
+    end
+
+    def wr_te
+      where(position: 'wr/te')
+    end
+  end
 
   attr_accessible :participant_id, :participant
   accepts_nested_attributes_for :players
 
   validates_presence_of :participant_id
-
   validate :participant_part_of_league
   validate :participant_can_only_make_one_team_per_week
+
+  after_create :set_up_players
 
   state_machine :status, :initial => :active do
     event :complete do
       transition :active => :completed
     end
+  end
+
+  def set_up_players
+    players.create position: 'qb'
+    players.create position: 'rb'
+    players.create position: 'wr/te'
+    players.create position: 'wr/te'
   end
 
   def name

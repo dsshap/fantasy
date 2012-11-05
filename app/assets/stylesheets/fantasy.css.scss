@@ -15,3 +15,33 @@ body{
 hr {
   /*border-color: #D6D6D6 -moz-use-text-color white;*/
 }
+
+
+.btn-fantasy-team {
+  text-align:left;
+  margin-bottom: 20px;
+  
+  .fantasy-league-info{
+    padding-left:25px;
+  }
+
+}
+
+
+@media (min-width: 979px){
+  .btn-block {
+    margin-top: 0px!important;
+  }
+
+  .btn-create-fantasy-league {
+    height: 110px !important;
+
+    
+  }
+}
+
+.table-team {
+  thead {
+    
+  }
+}

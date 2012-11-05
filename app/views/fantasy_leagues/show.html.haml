@@ -6,12 +6,52 @@
     %h6
       = link_to "edit", edit_fantasy_league_path(@fantasy_league)
   .well
+    %ul.nav.nav-tabs
+      - @fantasy_league.weeks.each do |week|
+        %li{:class => week_tab(week)}
+          = link_to "week #{week.week_number}", fantasy_league_path(week_number: week.week_number)
+    %table.table
+      %thead
+        %tr
+          %th
+            Team
+          %th
+            QB
+          %th
+            RB
+          %th
+            WR/TE
+          %th
+            WR/TE
+          %th
+            Total
+      %tbody
+        - @week.teams.each do |team|
+          %tr
+            %td
+              = link_to team.participant.user.email_prefix, fantasy_league_fantasy_team_path(@fantasy_league, team)
+            %td
+              = team.players.qb.position
+            %td
+              = team.players.rb.position
+            - team.players.wr_te.each do |f_player|
+              %td
+                = f_player.position
+            %td
+
+
     
 
 
 = content_for :debug do
+  = "league: #{@fantasy_league.id}"
+  %br
   = "league_owner: #{@league_owner}"
   %br
   = "Week: #{@week.id}"
   %br
+  = "Teams Count: #{@week.teams.count}"
+  %br
   = "Team: #{@team.id}"
+  %br
+  = "current_user_participant: #{@current_user_participant.to_json}"
