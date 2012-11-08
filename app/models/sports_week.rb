@@ -7,7 +7,19 @@ class SportsWeek
 
   field :week_number,         type: Integer
 
-  embeds_many :players, class_name: "SportsPlayer", cascade_callbacks: true
+  embeds_many :players, class_name: "SportsPlayer", cascade_callbacks: true do
+    def qb
+      where(position: 'qb').to_a
+    end
+
+    def rb
+      where(position: 'rb').to_a
+    end
+
+    def wr_te
+      where(position: 'wr/te').to_a
+    end
+  end
 
   attr_accessible :week_number
   accepts_nested_attributes_for :players, :allow_destroy => true
@@ -21,6 +33,10 @@ class SportsWeek
     event :complete do
       transition :active => :completed
     end
+  end
+
+  def eligable_players
+    players.where(status: 'eligible').to_a
   end
 
   def name

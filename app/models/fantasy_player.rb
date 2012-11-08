@@ -10,6 +10,10 @@ class FantasyPlayer
 
   attr_accessible :player_id, :player, :position
 
+  def has_player?
+    player_id ? true : false
+  end
+
   def player=(player)
     if player.class.name.eql?('SportsPlayer')
       self.player_id = player.id

@@ -1,22 +1,7 @@
 = simple_form_for(@sports_player, :url => admin_sports_league_sports_week_sports_players_path(@sports_league, @sports_week), :html => { :method => :post, class: 'formtastic'}) do |f|
   = f.error_notification
-  %fieldset.inputs
-    %ol
-      %li.string.input.stringish
-        %label.label
-        = f.input :name
-      %li.string.input.stringish
-        %label.label
-        = f.input :team
-      %li.string.input.stringish
-        %label.label
-        = f.input :position
-      %li.string.input.stringish
-        %label.label
-        = f.input :number
-      %li.string.input.stringish
-        %label.label
-        = f.input :status
+
+  = render :partial => 'form', locals: {f: f}
 
   %fieldset.actions
     %ol

@@ -10,7 +10,7 @@ ActiveAdmin.register SportsPlayer do
       @sports_league = SportsLeague.find(params[:sports_league_id])
       @sports_week = @sports_league.weeks.find(params[:sports_week_id])
       @sports_player = @sports_week.players.new
-      render 'new_form', layout: "active_admin"
+      render 'new', layout: "active_admin"
     end
 
     def create
@@ -35,6 +35,7 @@ ActiveAdmin.register SportsPlayer do
       @sports_league = SportsLeague.find(params[:sports_league_id])
       @sports_week = @sports_league.weeks.find(params[:sports_week_id])
       @sports_player = @sports_week.players.find(params[:id])
+      render 'edit',layout: "active_admin"
     end
 
     def update
@@ -64,7 +65,7 @@ ActiveAdmin.register SportsPlayer do
     links.html_safe
   end
 
-  form :partial => "form"
+  # form :partial => "form"
 
   show do
     attributes_table do
@@ -75,11 +76,16 @@ ActiveAdmin.register SportsPlayer do
       row :team
       row :position
       row :number 
+      row :opponent
       row :status
     end
 
     panel "Statistics" do
-
+      table_for sports_player.stats do
+        column(:category){|s| s.category.capitalize}
+        column(:sub_category){|s| s.sub_category.capitalize}
+        column :value
+      end
     end
   end
 

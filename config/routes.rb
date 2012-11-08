@@ -42,7 +42,12 @@ Fantasy::Application.routes.draw do
     resources :fantasy_teams, only: [:show, :edit, :update] do
 
     end
+    resources :sports_players, only: :index do
+
+    end
   end
+
+
 
   post '/teams' => 'fantasy_teams#index'
   post '/team' => 'fantasy_teams#show'

@@ -21,6 +21,25 @@ class FantasyParticipant
     end
   end
 
+  def get_used_players(position)
+    used_players = Array.new
+    fantasy_league.weeks.each do |f_week|
+      f_team = f_week.teams.find_by_participant(self)
+      f_player = f_team.players.send(position)
+      if f_player.is_a?(Array)
+        f_player.each do |f_p|
+          unless f_p.player.nil?
+            used_players.push(f_p.player)
+          end
+        end
+      else
+        unless f_player.player.nil?
+          used_players.push(f_player.player)
+        end
+      end
+    end
+    used_players
+  end
 
   def user=(user)
     if user.class.name.eql?('User')

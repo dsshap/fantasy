@@ -7,7 +7,11 @@ class FantasyWeek
 
   field :week_number,           type: Integer
 
-  embeds_many :teams, class_name: 'FantasyTeam', cascade_callbacks: true
+  embeds_many :teams, class_name: 'FantasyTeam', cascade_callbacks: true do
+    def find_by_participant(participant)
+      where(participant_id: participant.id).first
+    end
+  end
 
   attr_accessible :week_number
   accepts_nested_attributes_for :teams
@@ -26,7 +30,7 @@ class FantasyWeek
   end
 
   def can_make_team?(participant)
-    count = teams.where(participant_id: participant.user.id).count
+    count = teams.where(participant_id: participant.id).count
 
     if count == 0 or count == 1 #can be one because its counting itself
       true
@@ -44,7 +48,7 @@ class FantasyWeek
   end
 
   def current_team(participant)
-    tmp_teams = teams.where(participant_id: participant.user.id)
+    tmp_teams = teams.where(participant_id: participant.id)
     if tmp_teams.empty?
       nil
     else

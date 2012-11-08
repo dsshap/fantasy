@@ -1,0 +1,44 @@
+.row
+  .span7.offset1
+    %h3
+      Available Players
+    %table.table.table-hover
+      %thead
+        %tr
+          %th
+            &#35;
+          %th
+            Player
+          %th
+            Position
+          %th
+            Team
+          %th
+            Opponent
+          %th
+            Actions
+      %tbody
+        - @available_players.each do |player|
+          %tr
+            %td
+              = player.number
+            %td
+              = player.name
+            %td
+              = player.position
+            %td
+              = player.team
+            %td
+              = player.opponent
+            %td
+              = (player.eligible? ? link_to("Add", nil, class: 'btn btn-small') : nil)
+
+
+
+
+%p
+  = @used_players
+%p
+  = @all_players
+%p
+  = @available_players

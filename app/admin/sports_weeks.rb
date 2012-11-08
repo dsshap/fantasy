@@ -81,6 +81,7 @@ ActiveAdmin.register SportsWeek do
         column :position
         column :number 
         column :status
+        column :opponent
         column :updated_at
         column :created_at
       end

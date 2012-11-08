@@ -15,38 +15,43 @@
               Receiving
             %th(colspan=2)
           %tr
-            %th
-              Position
-            %th
-              Player
-            %th
-              Opponent
-            %th
-              Yards
-            %th
-              TDs
-            %th
-              INTs
-            %th
-              Yards
-            %th
-              TDs
-            %th
-              Receptions
-            %th
-              Yards
-            %th
-              TDs
-            %th
-              Fumbles
-            %th
-              Total Points
+            - %w[Position Player Status Opponent Yards TDs INTs Yards TDs Receptions Yards TDs Fumbles Total\ Points].each do |th|
+              %th
+                = th
         %tbody
           - @team.players.each do |f_player|
             %tr
               %td
                 = f_player.position.upcase
               %td
-                = player_name(f_player.player)
-%p
-  = @team.to_json
+                = player_name(f_player)
+              %td
+                = f_player.status if f_player.has_player?
+              %td
+                = f_player.opponent if f_player.has_player?
+              %td
+                = player_stat(f_player.stats.find_by_stat('passing', 'yards')) if f_player.has_player? 
+              %td
+                = player_stat(f_player.stats.find_by_stat('passing', 'tds')) if f_player.has_player? 
+              %td
+                = player_stat(f_player.stats.find_by_stat('passing', 'ints')) if f_player.has_player? 
+              %td
+                = player_stat(f_player.stats.find_by_stat('rushing', 'yards')) if f_player.has_player? 
+              %td
+                = player_stat(f_player.stats.find_by_stat('rushing', 'tds')) if f_player.has_player? 
+              %td
+                = player_stat(f_player.stats.find_by_stat('receiving', 'receptions')) if f_player.has_player? 
+              %td
+                = player_stat(f_player.stats.find_by_stat('receiving', 'yards')) if f_player.has_player? 
+              %td
+                = player_stat(f_player.stats.find_by_stat('receiving', 'tds')) if f_player.has_player?
+              %td
+                = player_stat(f_player.stats.find_by_stat('fumbles', nil)) if f_player.has_player? 
+              %td
+    = link_to "Back to League", fantasy_league_path(params[:fantasy_league_id]), class: 'btn btn-large'
+
+= content_for :debug do
+  = "Team: #{@team.id}"
+  %br
+  = "is_owner: #{@is_owner}"
+

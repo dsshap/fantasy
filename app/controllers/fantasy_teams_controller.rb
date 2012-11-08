@@ -24,6 +24,8 @@ class FantasyTeamsController < ApplicationController
     if @team.nil?
       redirect_to fantasy_league_path(f_league)        
     end
+
+    @is_owner = @team.team_owner?(current_user)
   end
 
 end

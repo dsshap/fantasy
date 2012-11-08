@@ -8,7 +8,6 @@ class FantasyTeam
   field :participant_id,        type: Moped::BSON::ObjectId
 
   embeds_many :players, class_name: 'FantasyPlayer', cascade_callbacks: true do
-
     def qb
       where(position: 'qb').first
     end
@@ -18,7 +17,7 @@ class FantasyTeam
     end
 
     def wr_te
-      where(position: 'wr/te')
+      where(position: 'wr/te').to_a
     end
   end
 
@@ -60,14 +59,18 @@ class FantasyTeam
     end
   end
 
+  def team_owner?(user)
+    participant.user.id.eql?(user.id)
+  end
+
   def participant=(participant)
     if participant.class.name.eql?('FantasyParticipant')
-      self.participant_id = participant.user.id
+      self.participant_id = participant.id
     end
   end
 
   def participant
-    @participant ||= fantasy_week.fantasy_league.participants.where(user_id: participant_id).first rescue nil
+    @participant ||= fantasy_week.fantasy_league.participants.find(participant_id) rescue nil
   end
 
 

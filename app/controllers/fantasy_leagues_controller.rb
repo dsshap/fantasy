@@ -17,7 +17,7 @@ class FantasyLeaguesController < ApplicationController
 
   def show
     @fantasy_league = FantasyLeague.find(params[:id])
-    @current_user_participant = @fantasy_league.participants.where(user_id: current_user.id).first
+    @current_user_participant = @fantasy_league.participants.find_by_user(current_user)
     @league_owner = @current_user_participant.is_owner
     unless params[:week_number].nil? or (params[:week_number].to_i > @fantasy_league.current_week_number or params[:week_number].to_i < 0)
       puts "good week number"

@@ -42,11 +42,9 @@ describe SportsLeague do
     league = SportsLeague.create name: "test sport"
     week = league.weeks.first
     player = week.players.create name: 'john doe', team: 'fake team', number: '0'
-    player.stats.create category: 'td', value: 1
 
-    league.weeks.first.players.first.stats.count.should eq(1)
-    league.weeks.first.players.first.stats.first.category.should eq("td")
-    league.weeks.first.players.first.stats.first.value.should eq(1)
+    league.weeks.first.players.first.stats.count.should eq(9)
+    #TODO check values categories sub-categories
   end
 
   it 'should increment current week number' do
