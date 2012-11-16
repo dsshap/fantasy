@@ -24,29 +24,29 @@
               %td
                 = f_player.position.upcase
               %td
-                = player_name(f_player)
+                = player_action(f_player)
               %td
-                = f_player.status if f_player.has_player?
+                = f_player.player.status if f_player.has_player?
               %td
-                = f_player.opponent if f_player.has_player?
+                = f_player.player.opponent if f_player.has_player?
               %td
-                = player_stat(f_player.stats.find_by_stat('passing', 'yards')) if f_player.has_player? 
+                = player_stat(f_player.player.stats.find_by_stat('passing', 'yards')) if f_player.has_player? 
               %td
-                = player_stat(f_player.stats.find_by_stat('passing', 'tds')) if f_player.has_player? 
+                = player_stat(f_player.player.stats.find_by_stat('passing', 'tds')) if f_player.has_player? 
               %td
-                = player_stat(f_player.stats.find_by_stat('passing', 'ints')) if f_player.has_player? 
+                = player_stat(f_player.player.stats.find_by_stat('passing', 'ints')) if f_player.has_player? 
               %td
-                = player_stat(f_player.stats.find_by_stat('rushing', 'yards')) if f_player.has_player? 
+                = player_stat(f_player.player.stats.find_by_stat('rushing', 'yards')) if f_player.has_player? 
               %td
-                = player_stat(f_player.stats.find_by_stat('rushing', 'tds')) if f_player.has_player? 
+                = player_stat(f_player.player.stats.find_by_stat('rushing', 'tds')) if f_player.has_player? 
               %td
-                = player_stat(f_player.stats.find_by_stat('receiving', 'receptions')) if f_player.has_player? 
+                = player_stat(f_player.player.stats.find_by_stat('receiving', 'receptions')) if f_player.has_player? 
               %td
-                = player_stat(f_player.stats.find_by_stat('receiving', 'yards')) if f_player.has_player? 
+                = player_stat(f_player.player.stats.find_by_stat('receiving', 'yards')) if f_player.has_player? 
               %td
-                = player_stat(f_player.stats.find_by_stat('receiving', 'tds')) if f_player.has_player?
+                = player_stat(f_player.player.stats.find_by_stat('receiving', 'tds')) if f_player.has_player?
               %td
-                = player_stat(f_player.stats.find_by_stat('fumbles', nil)) if f_player.has_player? 
+                = player_stat(f_player.player.stats.find_by_stat('fumbles', "")) if f_player.has_player? 
               %td
     = link_to "Back to League", fantasy_league_path(params[:fantasy_league_id]), class: 'btn btn-large'
 

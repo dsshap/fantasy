@@ -8,7 +8,6 @@ class SportsPlayer
   field :name
   field :team 
   field :position
-  field :number
   field :opponent, default: ""
 
   embeds_many :stats, class_name: 'SportsStatistic', cascade_callbacks: true do
@@ -17,7 +16,7 @@ class SportsPlayer
     end
   end
 
-  attr_accessible :name, :team, :position, :number, :opponent, :stats_attributes
+  attr_accessible :name, :team, :position, :opponent, :stats_attributes
   accepts_nested_attributes_for :stats, :allow_destroy => true
 
   after_create :set_up_stats

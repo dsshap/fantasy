@@ -108,7 +108,7 @@ describe FantasyLeague do
   def create_sports_league
     league = SportsLeague.create name: "football"
     week = league.weeks.first
-    week.players.create name: 'john doe', team: 'fake team', number: '0'
+    week.players.create name: 'john doe', team: 'fake team'
     league
   end
 

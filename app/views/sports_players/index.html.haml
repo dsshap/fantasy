@@ -31,7 +31,7 @@
             %td
               = player.opponent
             %td
-              = (player.eligible? ? link_to("Add", nil, class: 'btn btn-small') : nil)
+              = (player.eligible? ? link_to("Add", fantasy_league_switch_player_path(@fantasy_league, player, @current_f_player), class: 'btn btn-small') : nil)
 
 
 

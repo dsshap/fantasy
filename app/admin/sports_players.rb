@@ -75,7 +75,6 @@ ActiveAdmin.register SportsPlayer do
       row :name
       row :team
       row :position
-      row :number 
       row :opponent
       row :status
     end

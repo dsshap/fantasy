@@ -78,8 +78,7 @@ ActiveAdmin.register SportsWeek do
       table_for sports_week.players do
         column(:name){|player| link_to player.name, admin_sports_league_sports_week_sports_player_path(player.sports_week.sports_league, player.sports_week, player) }
         column :team
-        column :position
-        column :number 
+        column :position 
         column :status
         column :opponent
         column :updated_at

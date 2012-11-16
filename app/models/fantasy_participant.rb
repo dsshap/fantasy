@@ -41,6 +41,10 @@ class FantasyParticipant
     used_players
   end
 
+  def get_current_team
+    fantasy_league.current_week.current_team(self)
+  end
+
   def user=(user)
     if user.class.name.eql?('User')
       self.user_id = user.id

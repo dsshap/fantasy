@@ -39,8 +39,9 @@ Fantasy::Application.routes.draw do
   match '/dashboard' => 'dashboard#show', via: :get, as: :dashboard
 
   resources :fantasy_leagues, except: :delete do
+    get "/switch_player/:s_player_id/to/:f_player_id" => "fantasy_leagues#switch_player", as: :switch_player
     resources :fantasy_teams, only: [:show, :edit, :update] do
-
+      get "/drop_player/:f_player_id" => "fantasy_teams#drop_player", as: :drop_player
     end
     resources :sports_players, only: :index do
 

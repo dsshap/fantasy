@@ -28,12 +28,11 @@ describe SportsLeague do
     it 'should add a player to a week' do
       league = SportsLeague.create name: "test sport"
       week = league.weeks.first
-      week.players.create name: 'john doe', team: 'fake team', number: '0'
+      week.players.create name: 'john doe', team: 'fake team'
 
       league.weeks.first.players.count.should eq(1)
       league.weeks.first.players.first.name.should eq('john doe')
       league.weeks.first.players.first.team.should eq('fake team')
-      league.weeks.first.players.first.number.should eq('0')
     end
 
   end
@@ -41,7 +40,7 @@ describe SportsLeague do
   it 'should add a statistic to a player' do
     league = SportsLeague.create name: "test sport"
     week = league.weeks.first
-    player = week.players.create name: 'john doe', team: 'fake team', number: '0'
+    player = week.players.create name: 'john doe', team: 'fake team'
 
     league.weeks.first.players.first.stats.count.should eq(9)
     #TODO check values categories sub-categories
