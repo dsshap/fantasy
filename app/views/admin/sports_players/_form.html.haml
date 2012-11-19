@@ -9,10 +9,7 @@
       = f.input :team
     %li.string.input.stringish
       %label.label
-      = f.input :position
-    %li.string.input.stringish
-      %label.label
-      = f.input :number
+      = f.input :position, as: :select, collection: %w[qb rb wr te]
     %li.string.input.stringish
       %label.label
       = f.input :opponent

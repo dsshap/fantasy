@@ -22,7 +22,6 @@ class FantasyLeaguesController < ApplicationController
       @current_user_participant = @fantasy_league.participants.find_by_user(current_user)
       @league_owner = @current_user_participant.is_owner
       unless params[:week_number].nil? or (params[:week_number].to_i > @fantasy_league.current_week_number or params[:week_number].to_i < 0)
-        puts "good week number"
         @week = @fantasy_league.weeks.where(week_number: params[:week_number]).first
       end
 
@@ -65,7 +64,7 @@ class FantasyLeaguesController < ApplicationController
         unless s_player.nil?
           
           if s_player.eligible?
-            used_players = current_user_participant.get_used_players(s_player.position)
+            used_players = current_user_participant.get_used_players(f_player.position)
             unless used_players.include?(s_player)
 
 

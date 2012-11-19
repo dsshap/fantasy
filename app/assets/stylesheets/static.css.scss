@@ -1,6 +1,8 @@
 body{
+  @media (min-width: 979px){
+    padding-top: 60px;
+  }
   padding-bottom: 40px;
-  padding-top: 60px;
 }
 
 .sign_in_form_drop_down {

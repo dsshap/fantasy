@@ -37,6 +37,7 @@ SimpleForm.setup do |config|
     end
   end
 
+
   # Wrappers for forms and inputs using the Twitter Bootstrap toolkit.
   # Check the Bootstrap docs (http://twitter.github.com/bootstrap)
   # to learn about the different styles for forms and inputs,

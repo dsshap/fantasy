@@ -2,13 +2,19 @@ module FantasyPlayerHelper
 
   def player_action(f_player)
     msg = nil
+
     unless f_player.player.nil?
       msg = f_player.player.name
-      msg << link_to("Change", fantasy_league_sports_players_path(params[:fantasy_league_id], position: f_player.position))
-      msg << link_to("Drop", fantasy_league_fantasy_team_drop_player_path(f_player.fantasy_team.fantasy_week.fantasy_league, f_player.fantasy_team, f_player))
+
+      links = link_to("Change", fantasy_league_sports_players_path(params[:fantasy_league_id], position: f_player.position, f_player_id: f_player), class: 'btn btn-mini')
+      links << "&nbsp;".html_safe
+      links << link_to("Drop", fantasy_league_fantasy_team_drop_player_path(f_player.fantasy_team.fantasy_week.fantasy_league, f_player.fantasy_team, f_player), class: 'btn btn-mini btn-danger')
+
+      msg << content_tag(:div, links, class: 'pull-right')
     else
       if @is_owner
-        msg = link_to "Add", fantasy_league_sports_players_path(params[:fantasy_league_id], position: f_player.position)
+        link = link_to "Add Player", fantasy_league_sports_players_path(params[:fantasy_league_id], position: f_player.position, f_player_id: f_player), class: 'btn btn-primary'
+        msg = content_tag(:div, link, class: 'pull-right')
       else
         msg = "--"
       end

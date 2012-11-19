@@ -6,8 +6,6 @@
       %thead
         %tr
           %th
-            &#35;
-          %th
             Player
           %th
             Position
@@ -21,8 +19,6 @@
         - @available_players.each do |player|
           %tr
             %td
-              = player.number
-            %td
               = player.name
             %td
               = player.position
@@ -35,10 +31,10 @@
 
 
 
-
-%p
+= content_for :debug do
+  %br
   = @used_players
-%p
+  %br
   = @all_players
-%p
+  %br
   = @available_players

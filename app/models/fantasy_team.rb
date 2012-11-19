@@ -17,7 +17,11 @@ class FantasyTeam
     end
 
     def wr_te
-      where(position: 'wr/te').to_a
+      where(position: 'wr_te').to_a
+    end
+
+    def find_by_choice(position, f_player_id)
+      where(position: position, id: f_player_id).first
     end
   end
 
@@ -39,8 +43,8 @@ class FantasyTeam
   def set_up_players
     players.create position: 'qb'
     players.create position: 'rb'
-    players.create position: 'wr/te'
-    players.create position: 'wr/te'
+    players.create position: 'wr_te'
+    players.create position: 'wr_te'
   end
 
   def name

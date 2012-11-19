@@ -11,7 +11,7 @@ class SportsPlayersController < ApplicationController
 
         unless params[:position].nil? or !(%w[qb rb wr_te].include?(params[:position]))
           @used_players = current_user_participant.get_used_players(params[:position])
-          @current_f_player = current_user_participant.get_current_team.players.send(params[:position])
+          @current_f_player = current_user_participant.get_current_team.players.find_by_choice(params[:position], params[:f_player_id])
           sports_league = SportsLeague.where(name: "football").first
           current_sports_week = sports_league.current_week
           @all_players = current_sports_week.players.send(params[:position])

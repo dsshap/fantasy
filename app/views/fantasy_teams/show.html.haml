@@ -2,11 +2,11 @@
   .span12
     %h2
       = "Team #{@team.participant.user.email_prefix}"
-    .well
-      %table.table.table-bordered.table-team
+    %div
+      %table.table.table-bordered.table-hover.table-team
         %thead
           %tr
-            %th(colspan=3)
+            %th(colspan=4)
             %th(colspan=3){style: "text-align: center;"}
               Passing
             %th(colspan=2){style: "text-align: center;"}
@@ -22,32 +22,19 @@
           - @team.players.each do |f_player|
             %tr
               %td
-                = f_player.position.upcase
+                = f_player.position.upcase.gsub('_', ' ')
               %td
                 = player_action(f_player)
               %td
                 = f_player.player.status if f_player.has_player?
               %td
                 = f_player.player.opponent if f_player.has_player?
+              - [["passing", %w[yards tds ints]], ["rushing", %w[yards tds]], ["receiving", %w[receptions yards tds]], ["fumbles", [""]] ].each do |cat|
+                - cat[1].each do |sub_cat|
+                  %td
+                    = player_stat(f_player.player.stats.find_by_stat(cat[0], sub_cat)) if f_player.has_player?
               %td
-                = player_stat(f_player.player.stats.find_by_stat('passing', 'yards')) if f_player.has_player? 
-              %td
-                = player_stat(f_player.player.stats.find_by_stat('passing', 'tds')) if f_player.has_player? 
-              %td
-                = player_stat(f_player.player.stats.find_by_stat('passing', 'ints')) if f_player.has_player? 
-              %td
-                = player_stat(f_player.player.stats.find_by_stat('rushing', 'yards')) if f_player.has_player? 
-              %td
-                = player_stat(f_player.player.stats.find_by_stat('rushing', 'tds')) if f_player.has_player? 
-              %td
-                = player_stat(f_player.player.stats.find_by_stat('receiving', 'receptions')) if f_player.has_player? 
-              %td
-                = player_stat(f_player.player.stats.find_by_stat('receiving', 'yards')) if f_player.has_player? 
-              %td
-                = player_stat(f_player.player.stats.find_by_stat('receiving', 'tds')) if f_player.has_player?
-              %td
-                = player_stat(f_player.player.stats.find_by_stat('fumbles', "")) if f_player.has_player? 
-              %td
+                = f_player.total if f_player.has_player? 
     = link_to "Back to League", fantasy_league_path(params[:fantasy_league_id]), class: 'btn btn-large'
 
 = content_for :debug do

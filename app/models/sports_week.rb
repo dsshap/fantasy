@@ -17,7 +17,7 @@ class SportsWeek
     end
 
     def wr_te
-      where(position: 'wr/te').to_a
+      any_in(position: ['wr', 'te']).to_a
     end
   end
 
