@@ -16,7 +16,7 @@ class SportsPlayer
     end
   end
 
-  attr_accessible :name, :team, :position, :opponent, :stats_attributes
+  attr_accessible :name, :team, :position, :opponent, :status, :stats_attributes
   accepts_nested_attributes_for :stats, :allow_destroy => true
 
   after_create :set_up_stats

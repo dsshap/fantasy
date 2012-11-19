@@ -7,6 +7,7 @@ class FantasyParticipant
 
   field :user_id,       type: Moped::BSON::ObjectId
   field :is_owner,      type: Boolean,                  default: false
+  field :email
 
   attr_accessible :user_id, :user, :is_owner
 
@@ -53,6 +54,14 @@ class FantasyParticipant
 
   def user
     @user ||= User.find(user_id) rescue nil
+  end
+
+  def email_prefix
+    if user.nil?
+      email #.split('@')[0]
+    else
+      user.email #.split('@')[0]
+    end
   end
 
 end

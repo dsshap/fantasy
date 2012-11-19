@@ -26,6 +26,7 @@ class SportsWeek
 
   state_machine :status, :initial => :pending do
     after_transition :on => :complete, :do => :increment_week_number
+    after_transition :on => :complete, :do => :make_all_player_done
     before_transition :on => :active, :do => :assign_week_number
     event :active do
       transition :pending => :active
@@ -49,6 +50,11 @@ class SportsWeek
 
   def increment_week_number
     sports_league.increment_current_week_number
+  end
+
+  def make_all_player_done
+    player.collect(&:done)
+    self.save
   end
 
 end

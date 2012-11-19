@@ -54,10 +54,10 @@ class FantasyTeamsController < ApplicationController
                   f_player = f_team.players.find(params[:f_player_id]) rescue nil
 
                   unless f_player.nil?
-                    
+                    s_player = f_player.player
                     f_player.player_id = nil
                     f_player.save
-                    flash[:success] = "Successfully dropped player"
+                    flash[:success] = "Successfully dropped #{s_player.name}"
                     redirect_to fantasy_league_fantasy_team_path(f_league, f_team)
 
                   else

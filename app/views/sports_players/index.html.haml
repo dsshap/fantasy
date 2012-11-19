@@ -1,6 +1,6 @@
 .row
-  .span7.offset1
-    %h3
+  .span7.offset0
+    %h2
       Available Players
     %table.table.table-hover
       %thead
@@ -10,24 +10,49 @@
           %th
             Position
           %th
+            Status
+          %th
             Team
           %th
             Opponent
           %th
             Actions
       %tbody
-        - @available_players.each do |player|
+        - @available_players.sort_by{|p| p.eligible? ? 0 : 1  }.each do |player|
           %tr
             %td
               = player.name
             %td
               = player.position
             %td
+              = player.status
+            %td
               = player.team
             %td
               = player.opponent
             %td
-              = (player.eligible? ? link_to("Add", fantasy_league_switch_player_path(@fantasy_league, player, @current_f_player), class: 'btn btn-small') : nil)
+              = (player.eligible? ? link_to("Add to Roster", fantasy_league_switch_player_path(@fantasy_league, player, @current_f_player), class: 'btn btn-small btn-primary') : nil)
+  .span4.offset1
+    %h4
+      Previously Used Players
+    %table.table
+      %thead
+        %tr
+          %th
+            Player
+          %th
+            Week
+      %tbody
+        - @used_players.each do |player|
+          %tr
+            %td
+              = player.name
+            %td
+              = player.sports_week.week_number
+
+.row
+  .span12
+    = link_to "Back to Team", fantasy_league_fantasy_team_path(@fantasy_league, @current_f_player.fantasy_team), class: 'btn btn-large'
 
 
 

@@ -54,11 +54,32 @@ ActiveAdmin.register SportsPlayer do
       redirect_to admin_sports_league_sports_week_path(params[:sports_league_id], params[:sports_week_id])
     end
 
+    def in_play
+      sports_player = SportsLeague.find(params[:sports_league_id]).weeks.find(params[:sports_week_id]).players.find(params[:sports_player_id])
+      sports_player.in_play
+      flash[:notice] = "#{sports_player.name} is now playing!"
+      redirect_to admin_sports_league_sports_week_sports_player_path(params[:sports_league_id], params[:sports_week_id], params[:sports_player_id])
+    end
+
+    def done_playing
+      sports_player = SportsLeague.find(params[:sports_league_id]).weeks.find(params[:sports_week_id]).players.find(params[:sports_player_id])
+      sports_player.done
+      flash[:notice] = "#{sports_player.name} is done playing!"
+      redirect_to admin_sports_league_sports_week_sports_player_path(params[:sports_league_id], params[:sports_week_id], params[:sports_player_id])
+
+    end
+
   end
 
   action_item :only => :show do
     links = ''
     links<<link_to("Edit Sports Player", edit_admin_sports_league_sports_week_sports_player_path(params[:sports_league_id], params[:sports_week_id], sports_player))
+    if sports_player.eligible?
+      links<<link_to("In Play", admin_sports_league_sports_week_sports_player_in_play_path(params[:sports_league_id], params[:sports_week_id], sports_player))
+    end
+    if sports_player.playing?
+      links<<link_to("Done Playing", admin_sports_league_sports_week_sports_player_done_playing_path(params[:sports_league_id], params[:sports_week_id], sports_player))
+    end
     unless sports_player.sports_week.completed?
       links<<link_to("Delete Sports Player", admin_sports_league_sports_week_sports_player_path(params[:sports_league_id], params[:sports_week_id], sports_player), method: :delete)
     end

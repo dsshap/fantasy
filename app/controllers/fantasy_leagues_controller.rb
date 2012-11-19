@@ -35,6 +35,16 @@ class FantasyLeaguesController < ApplicationController
     end
   end
 
+  def new_participant
+    @fantasy_league = FantasyLeague.find(params[:id]) rescue nil
+
+    unless @fantasy_league.nil?
+
+    else
+      redirect_to root_path
+    end
+  end
+
   def edit
     @fantasy_league = FantasyLeague.find(params[:id])
   end
@@ -71,7 +81,7 @@ class FantasyLeaguesController < ApplicationController
               f_player.player = s_player
               f_player.save
 
-              flash[:success] = "Successfully added player"
+              flash[:success] = "Successfully added #{s_player.name}"
               redirect_to fantasy_league_fantasy_team_path(f_league, f_team)
               
             else

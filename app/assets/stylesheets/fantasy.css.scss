@@ -58,3 +58,43 @@ footer {
     
   }
 }
+
+.nav-tabs {
+  border-bottom: 1px solid #BABABA;
+  li.active {
+    a, a:hover {
+      border-color: #BABABA #BABABA transparent;
+      background-color: #D0D0D0;
+      -moz-border-bottom-colors: none;
+      -moz-border-left-colors: none;
+      -moz-border-right-colors: none;
+      -moz-border-top-colors: none;
+    }
+  }
+  li{
+    a:hover{
+      background-color: #DDDDDD;
+    }
+  }
+}
+
+.table, .table {
+  th, td {
+    border-top: 1px solid #BABABA
+  } 
+}
+
+.table-bordered {
+  border-color: #BABABA #BABABA #BABABA -moz-use-text-color;
+  td, th {
+    border-left: 1px solid #BABABA;
+  }
+}
+
+
+
+
+
+
+
+
