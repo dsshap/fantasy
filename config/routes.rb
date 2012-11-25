@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Fantasy::Application.routes.draw do
 
    namespace :admin do
@@ -15,8 +17,6 @@ Fantasy::Application.routes.draw do
         resources :sports_players do
           get :in_play
           get :done_playing
-      #     resources :sports_statistics do
-      #     end
         end
         get :activate_next_week
       end
@@ -29,7 +29,12 @@ Fantasy::Application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
 
-  devise_for :users
+  devise_for :users, :controllers => { :registrations => 'registrations', :sessions => 'sessions' }
+
+  constraint = lambda { |request| request.env["warden"].authenticate? and request.env['warden'].user.instance_of?(AdminUser) }
+  constraints constraint do
+    mount Sidekiq::Web => '/admin/sidekiq'
+  end
 
   authenticated :user do
     root :to => 'dashboard#show'
@@ -40,7 +45,8 @@ Fantasy::Application.routes.draw do
   match '/dashboard' => 'dashboard#show', via: :get, as: :dashboard
 
   resources :fantasy_leagues, except: :delete do
-    post :new_participant
+    post :new_invitation
+    get "/join_league/:invitation_id" => "fantasy_leagues#join_league", as: :join_league
     get "/switch_player/:s_player_id/to/:f_player_id" => "fantasy_leagues#switch_player", as: :switch_player
     resources :fantasy_teams, only: [:show, :edit, :update] do
       get "/drop_player/:f_player_id" => "fantasy_teams#drop_player", as: :drop_player

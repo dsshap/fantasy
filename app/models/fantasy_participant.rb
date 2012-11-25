@@ -7,7 +7,6 @@ class FantasyParticipant
 
   field :user_id,       type: Moped::BSON::ObjectId
   field :is_owner,      type: Boolean,                  default: false
-  field :email
 
   attr_accessible :user_id, :user, :is_owner
 

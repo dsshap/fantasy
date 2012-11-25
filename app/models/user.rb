@@ -34,7 +34,9 @@ class User
   accepts_nested_attributes_for :fantasy_leagues, :allow_destroy => true
 
   def leagues_belong_to
-    FantasyLeague.where(status: :active).select {|league| league.is_participant?(league.participants.find_by_user(self))}
+    FantasyLeague.where(status: :active).select do |league| 
+      !league.participants.find_by_user(self).nil?
+    end
   end
 
   def email_prefix

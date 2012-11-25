@@ -35,12 +35,12 @@ module ApplicationHelper
     end
   end
   def league_tab
-    label = ""
+    label = "My "
     unless current_user.leagues_belong_to.count.zero?
       label << "Leagues"
     else
       label << "League"
     end
-    link_to label, nil
+    link_to label, root_path
   end
 end

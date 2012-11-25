@@ -22,8 +22,10 @@ class FantasyLeague
     end
   end
 
-  attr_accessible :name, :current_week_number, :scorings_attributes
-  accepts_nested_attributes_for :weeks, :participants, :scorings, :allow_destroy => true
+  has_many :invitations, class_name: 'FantasyInvitation'
+
+  attr_accessible :name, :current_week_number, :scorings_attributes, :invitations_attributes
+  accepts_nested_attributes_for :weeks, :participants, :scorings, :invitations, :allow_destroy => true
 
   validates_presence_of :name
 
@@ -37,8 +39,16 @@ class FantasyLeague
     end
   end
 
+  def get_all_invitations
+    FantasyInvitation.where(fantasy_league_id: id)
+  end
+
+  def get_pending_invitations
+    get_all_invitations.select{|i| i.status == "pending"}
+  end
+
   def add_owner_as_participant
-    participant = participants.create user: user, is_owner: true
+    participant = participants.create! user: user, is_owner: true
     participant.active
   end
 

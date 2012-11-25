@@ -2,7 +2,7 @@
   .span12
     %h2
       League Name
-    = simple_form_for(@fantasy_league, :html => { :method => :put, class: 'form-horizontal ' }) do |f|
+    = simple_form_for(@fantasy_league, :html => { :method => :put, class: 'form-horizontal league-settings' }) do |f|
       = f.error_notification
       .form-inputs
         = f.input :name, :required => true
@@ -11,10 +11,13 @@
         Scoring Settings
         = f.fields_for :scorings do |score|
           .form-inputs.row
-            = score.input :interval, label: "<b>#{score.object.category.capitalize} :: #{score.object.sub_category.capitalize}</b> &nbsp;&nbsp;&nbsp;&nbsp;  For every ", wrapper_html: { :class => 'span4' }, :input_html => { class: 'input-mini' }, :label_html => {style: 'width: 275px;margin-right:20px;'}
-            = score.input :points, label: "Recieve", wrapper_html: { class: 'span3', :style => 'width:240px;' }, :input_html => { class: 'input-mini' }
-            %h5
-              Points
+            = score.input :interval, wrapper: :add_on, prepend: "For every", label: "<b>#{score.object.category.capitalize} :: #{score.object.sub_category.capitalize}</b>",wrapper_html: { :class => 'span4' },input_html: { class: 'span1' }
+            = score.input :points, wrapper: :add_on,label: "Recieve", wrapper_html: { class: 'span3', :style => 'width:240px;' }, :input_html => { class: 'span1' }, append: "Points"
+
+            / = score.input :interval, label: "<b>#{score.object.category.capitalize} :: #{score.object.sub_category.capitalize}</b> &nbsp;&nbsp;&nbsp;&nbsp;  For every ", wrapper_html: { :class => 'span4' }, :input_html => { class: 'input-mini' }, :label_html => {style: 'width: 275px;margin-right:20px;'}
+            / = score.input :points, label: "Recieve", wrapper_html: { class: 'span3', :style => 'width:240px;' }, :input_html => { class: 'input-mini' }
+            / %h5
+            /   Points
 
       .form-actions
         = f.button :submit, "Update", class: 'btn btn-large btn-primary'

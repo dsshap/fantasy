@@ -53,7 +53,7 @@ class SportsWeek
   end
 
   def make_all_player_done
-    player.collect(&:done)
+    players.collect(&:done)
     self.save
   end
 

@@ -1,4 +1,5 @@
 class FantasyLeaguesController < ApplicationController
+  before_filter :authenticate_user!, except: :join_league
   respond_to *Mime::SET.map(&:to_sym)# if mimes_for_respond_to.empty?
 
   def new
@@ -28,21 +29,49 @@ class FantasyLeaguesController < ApplicationController
       if @week.nil?
         @week = @fantasy_league.current_week
       end
-      
+      @pending_inv = @fantasy_league.get_pending_invitations
       @team = @week.current_team(@current_user_participant)
     else
       redirect_to root_path
     end
   end
 
-  def new_participant
-    @fantasy_league = FantasyLeague.find(params[:id]) rescue nil
+  def new_invitation
+    @fantasy_league = FantasyLeague.find(params[:fantasy_league_id]) rescue nil
+    email = params[:email]
 
-    unless @fantasy_league.nil?
-
+    unless @fantasy_league.nil? or email.nil?
+      inv = @fantasy_league.invitations.new email: email
+      if inv.save
+        flash[:notice] = "Successfully invited #{email}!"
+      else
+        flash[:error] = inv.errors.full_messages
+      end
+      redirect_to fantasy_league_path(@fantasy_league)
     else
       redirect_to root_path
     end
+  end
+
+  def join_league
+    invitation_id = params[:invitation_id]
+    inv = FantasyInvitation.find(invitation_id) rescue nil
+    unless inv.nil? or inv.accepted?
+      p "found inv and its good"
+      if inv.fantasy_league.id.to_s.eql?(params[:fantasy_league_id])
+        if user_signed_in?
+          inv.join_league(current_user)
+        else
+          set_invitation_into_session(inv.id)
+          unless User.where(email: inv.email).first.nil?
+            new_user_session_path
+          else
+            new_user_registration_path
+          end
+        end
+      end
+    end
+    redirect_to root_path
   end
 
   def edit
@@ -104,7 +133,7 @@ class FantasyLeaguesController < ApplicationController
       redirect_to root_path
     end
 
-
   end
+
 
 end

@@ -6,7 +6,7 @@ module FantasyPlayerHelper
     unless f_player.player.nil?
       msg = f_player.player.name
 
-      if f_player.player.eligible?
+      if f_player.player.eligible? and @is_owner
         links = link_to("Change", fantasy_league_sports_players_path(params[:fantasy_league_id], position: f_player.position, f_player_id: f_player), class: 'btn btn-mini')
         links << "&nbsp;".html_safe
         links << link_to("Drop", fantasy_league_fantasy_team_drop_player_path(f_player.fantasy_team.fantasy_week.fantasy_league, f_player.fantasy_team, f_player), class: 'btn btn-mini btn-danger')

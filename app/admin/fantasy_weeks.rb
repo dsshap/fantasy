@@ -44,7 +44,7 @@ ActiveAdmin.register FantasyWeek do
 
     panel "Teams" do
       table_for fantasy_week.teams do
-        column(:id){|team| link_to team.id, admin_fantasy_league_fantasy_week_fantasy_team_path(team.fantasy_week.fantasy_league, team.fantasy_week, team) }
+        column(:team_id){|team| link_to team.id, admin_fantasy_league_fantasy_week_fantasy_team_path(team.fantasy_week.fantasy_league, team.fantasy_week, team) }
         column(:participant){|team| link_to team.participant.user.email, admin_user_path(team.participant) }
         column :status
         column :updated_at

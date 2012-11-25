@@ -33,6 +33,11 @@ gem "rails3-jquery-autocomplete", "~> 1.0.9"
 gem "kaminari", "0.14.1"
 gem "evently", "~> 0.0.2"
 gem "state_machine", "~> 1.1.2"
+
+gem 'sidekiq', "2.5.3"
+gem 'sinatra', require: false
+gem 'slim'
+
 #gem "evently", :path => '/Users/davidshapiro/Documents/Gems/evently' #git: 'https://github.com/dsshap/evently.git'
 
 # To use ActiveModel has_secure_password

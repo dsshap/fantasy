@@ -41,7 +41,7 @@ ActiveAdmin.register FantasyLeague do
 
     panel "Participants" do
       table_for fantasy_league.participants do
-        column :user
+        column(:user){|p| link_to p.user.email, admin_user_path(p.user)}
         column :is_owner
         column :status
         column :updated_at
@@ -51,7 +51,7 @@ ActiveAdmin.register FantasyLeague do
 
     panel "Weeks" do
       table_for fantasy_league.weeks do
-        column(:week_number){|week| link_to week.week_number, admin_fantasy_league_fantasy_week_path(fantasy_league, week) }
+        column(:week_number){|week| link_to "Week #{week.week_number}", admin_fantasy_league_fantasy_week_path(fantasy_league, week) }
         column :status
         column :updated_at
         column :created_at
