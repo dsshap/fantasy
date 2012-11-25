@@ -21,7 +21,7 @@ end
 
 gem 'jquery-rails'
 
-gem "mongoid", "~> 3.0.9"
+gem "mongoid", "3.0.9"
 #gem 'activeadmin-mongoid', git: 'https://github.com/elia/activeadmin-mongoid.git'
 gem 'activeadmin-mongoid', :git => 'git://github.com/Ostrzy/activeadmin-mongoid.git', :branch => 'filter_support'
 gem "devise", ">= 2.1.0"
@@ -31,7 +31,7 @@ gem "rails3-jquery-autocomplete", "~> 1.0.9"
 
 
 gem "kaminari", "0.14.1"
-gem "evently", "~> 0.0.2"
+gem "evently", "0.0.3"
 gem "state_machine", "~> 1.1.2"
 
 gem 'sidekiq', "2.5.3"

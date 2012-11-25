@@ -22,8 +22,13 @@ class FantasyInvitation
 
   after_create :send_invite
 
+  def name
+    "#{email} invitation"
+  end
+
   def send_invite
     FantasyInvitationEmailWorker.perform_async(id)
+    Evently.record(fantasy_league, 'invited', email, self)
   end
 
   def join_league_link
@@ -33,13 +38,15 @@ class FantasyInvitation
   def join_league(user)
     if user.email.eql?(email)
       if fantasy_league.participants.where(user_id: user.id).count.zero?
-        p "participant doesn't exist"
         participant = fantasy_league.participants.create! user: user
         participant.active
-        p "creating team"
-        fantasy_league.current_week.teams.create! participant: participant
+        team = fantasy_league.current_week.teams.create! participant: participant
         accepted
-        p "done"
+
+        Evently.record(user, "accepted invite to", fantasy_league)
+        Evently.record(user, "added as participant to", fantasy_league)
+        Evently.record(user, "created a new team", team)
+
       end
     end
   end

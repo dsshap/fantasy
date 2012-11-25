@@ -6,6 +6,8 @@ class RegistrationsController < Devise::RegistrationsController
 
     if resource.save
 
+      Evently.record(resource, "signed-up")
+
       unless session[:invitation_ids].nil?
         session[:invitation_ids].each do |invitation_id|
           inv = FantasyInvitation.find(invitation_id)

@@ -42,4 +42,8 @@ class User
   def email_prefix
     email.split('@')[0]
   end
+
+  def name
+    email_prefix
+  end
 end

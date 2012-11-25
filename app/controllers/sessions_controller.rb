@@ -4,6 +4,8 @@ class SessionsController < Devise::SessionsController
     set_flash_message(:notice, :signed_in) if is_navigational_format?
     sign_in(resource_name, resource)
 
+    Evently.record(resource, 'signed-in')
+
     unless session[:invitation_ids].nil?
       session[:invitation_ids].each do |invitation_id|
         inv = FantasyInvitation.find(invitation_id)

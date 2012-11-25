@@ -21,6 +21,9 @@ class FantasyTeamsController < ApplicationController
               redirect_to fantasy_league_path(f_league)        
             else
               @is_owner = @team.team_owner?(current_user)
+
+              Evently.record(current_user, 'viewed', @team)
+
             end
 
           else
@@ -57,13 +60,15 @@ class FantasyTeamsController < ApplicationController
                     s_player = f_player.player
                     f_player.player_id = nil
                     f_player.save
+
+                    Evently.record(current_user, "dropped", s_player, "from", f_team)
+
                     flash[:success] = "Successfully dropped #{s_player.name}"
                     redirect_to fantasy_league_fantasy_team_path(f_league, f_team)
 
                   else
                     flash[:error] = "Fantasy player does not exist"
                     redirect_to fantasy_league_fantasy_team_path(f_league, f_team)
-                    # redirect_to fantasy_league_path(f_league)
                   end
 
                 else

@@ -31,6 +31,8 @@ class FantasyLeaguesController < ApplicationController
       end
       @pending_inv = @fantasy_league.get_pending_invitations
       @team = @week.current_team(@current_user_participant)
+
+      Evently.record(current_user, 'viewed', @fantasy_league, @week)
     else
       redirect_to root_path
     end
@@ -83,6 +85,7 @@ class FantasyLeaguesController < ApplicationController
     fantasy_league.update_attributes params[:fantasy_league]
     if fantasy_league.save
       flash[:notice] = "Updated League Settings"
+      Evently.record(current_user, 'updated league settings', @fantasy_league)
       respond_with fantasy_league, :location => fantasy_league_path(fantasy_league)
     else
       respond_with fantasy_league
@@ -109,6 +112,8 @@ class FantasyLeaguesController < ApplicationController
 
               f_player.player = s_player
               f_player.save
+
+              Evently.record(current_user, "added", f_player, 'to', f_team)
 
               flash[:success] = "Successfully added #{s_player.name}"
               redirect_to fantasy_league_fantasy_team_path(f_league, f_team)

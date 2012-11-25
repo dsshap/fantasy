@@ -50,6 +50,7 @@ class FantasyLeague
   def add_owner_as_participant
     participant = participants.create! user: user, is_owner: true
     participant.active
+    Evently.record(self, 'added participant as owner', user)
   end
 
   def create_initial_week
@@ -57,6 +58,7 @@ class FantasyLeague
     participants.where(status: :active).each do |participant|
       week.teams.create! participant: participant
     end
+    Evently.record(self, 'created initial week', week)
   end
 
   def setup_scoring
@@ -72,6 +74,8 @@ class FantasyLeague
     scorings.create category: "receiving", sub_category: "tds", interval: 1, points: 6
 
     scorings.create category: "fumbles", sub_category: "", interval: 1, points: -2
+
+    Evently.record(self, 'created default scoring')
   end
 
   def current_week
