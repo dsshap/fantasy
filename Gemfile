@@ -8,7 +8,7 @@ gem "thin", '1.4.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem "airbrake", "~> 3.1.2"
-
+gem 'newrelic_rpm'
 
 # Gems used only for assets and not required
 # in production environments by default.
