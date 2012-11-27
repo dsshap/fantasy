@@ -11,10 +11,12 @@ module ApplicationHelper
     ].join("\n")
   end
   def event_autolink(event_parts)
+    p "event_parts: #{event_parts}"
     event_parts.map do |part|
       case part.content
       when Hash
-        link_to part.content['name'], send("admin_#{part.content['class_name'].underscore}_path", part.content['id'])
+        p "part: #{part}"
+        link_to part.content['name'], nil #send("admin_#{part.content['class_name'].underscore}_path", part.content['id'])
       else
         part.content
       end

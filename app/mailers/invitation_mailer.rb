@@ -7,7 +7,7 @@ class InvitationMailer < ActionMailer::Base
     @email = email
     @link = link
     mail(:to => email,
-         :subject => "Invite")
+         :subject => "Old Town Sports Invitation to Fantasy League: #{league_name}")
   end
 
 end

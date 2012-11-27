@@ -37,6 +37,7 @@ gem "state_machine", "~> 1.1.2"
 gem 'sidekiq', "2.5.3"
 gem 'sinatra', require: false
 gem 'slim'
+gem "autoscaler", "~> 0.0.3"
 
 #gem "evently", :path => '/Users/davidshapiro/Documents/Gems/evently' #git: 'https://github.com/dsshap/evently.git'
 

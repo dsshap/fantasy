@@ -10,6 +10,9 @@ class FantasyLeaguesController < ApplicationController
     fantasy_league = current_user.fantasy_leagues.new params[:fantasy_league]
     if fantasy_league.save
       flash[:notice] = "Created league: #{fantasy_league.name}"
+
+      Evently.record(current_user, 'created league', fantasy_league)
+
       respond_with fantasy_league, :location => fantasy_league_path(fantasy_league)
     else
       respond_with fantasy_league

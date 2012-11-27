@@ -10,6 +10,10 @@ class FantasyPlayer
 
   attr_accessible :player_id, :player, :position
 
+  def name
+    player.name
+  end
+
   def has_player?
     player_id ? true : false
   end

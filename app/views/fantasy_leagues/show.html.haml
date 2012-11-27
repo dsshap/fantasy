@@ -48,7 +48,7 @@
         %tr
           %th
             Invite League Players
-          %th
+
       %tbody
         %tr
           %td(colspan=2)
@@ -60,9 +60,8 @@
         - @pending_inv.each do |inv|
           %tr
             %td
-              = inv.email
-            %td
-              = inv.status
+              = "#{inv.email} ( #{inv.status} )"
+
 
 
 .row
