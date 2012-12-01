@@ -90,7 +90,13 @@ production:
       # server setup, and at least 3 for a replica set. Hosts must be
       # an array of host:port pairs. This session is single server.
       hosts:
-        - heroku_app9529937.mongolab.com:43457
+        - ds043457.mongolab.com:43457
+      # Define the default database name.
+      database: heroku_app9529937
+      # Since this database points at a session connected to MongoHQ, we must
+      # provide the authentication details.
+      #username: user
+      #password: password
     # This defines a secondary session at a replica set.
     # This defines a tertiary session at a Mongos fronted shard.
     another:
