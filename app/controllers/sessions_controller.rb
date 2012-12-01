@@ -9,7 +9,9 @@ class SessionsController < Devise::SessionsController
     unless session[:invitation_ids].nil?
       session[:invitation_ids].each do |invitation_id|
         inv = FantasyInvitation.find(invitation_id)
-        inv.join_league(resource)
+        if inv.email.eql?(resource.email)
+          inv.join_league(resource)
+        end
       end
       session[:invitation_ids] = nil
     end

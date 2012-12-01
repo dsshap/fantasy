@@ -29,7 +29,7 @@ ActiveAdmin.register FantasyLeague do
 
   show do
     attributes_table do
-      row :id 
+      row :id
       row :name
       row :sport
       row :status
@@ -46,6 +46,13 @@ ActiveAdmin.register FantasyLeague do
         column :status
         column :updated_at
         column :created_at
+      end
+    end
+
+    panel "Invitations" do
+      table_for fantasy_league.get_all_invitations do
+        column :email
+        column :status
       end
     end
 
