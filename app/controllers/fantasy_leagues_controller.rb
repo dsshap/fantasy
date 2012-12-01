@@ -3,7 +3,7 @@ class FantasyLeaguesController < ApplicationController
   respond_to *Mime::SET.map(&:to_sym)# if mimes_for_respond_to.empty?
 
   def new
-    @fantasy_league = current_user.fantasy_leagues.new 
+    @fantasy_league = current_user.fantasy_leagues.new
   end
 
   def create
@@ -46,11 +46,21 @@ class FantasyLeaguesController < ApplicationController
     email = params[:email]
 
     unless @fantasy_league.nil? or email.nil?
-      inv = @fantasy_league.invitations.new email: email
-      if inv.save
-        flash[:notice] = "Successfully invited #{email}!"
+      if @fantasy_league.invitations.all_in(email: email, status: 'pending').count.zero?
+        if @fantasy_league.invitations.where(email: email).count.zero?
+
+          inv = @fantasy_league.invitations.new email: email
+
+          if inv.save
+            flash[:notice] = "Successfully invited #{email}!"
+          else
+            flash[:error] = inv.errors.full_messages
+          end
+        else
+          flash[:error] = "An invitation was already accepted for #{email}"
+        end
       else
-        flash[:error] = inv.errors.full_messages
+        flash[:error] = "An invitation is already pending for #{email}"
       end
       redirect_to fantasy_league_path(@fantasy_league)
     else
@@ -65,7 +75,9 @@ class FantasyLeaguesController < ApplicationController
       p "found inv and its good"
       if inv.fantasy_league.id.to_s.eql?(params[:fantasy_league_id])
         if user_signed_in?
-          inv.join_league(current_user)
+          if inv.email.eql?(current_user.email)
+            inv.join_league(current_user)
+          end
         else
           set_invitation_into_session(inv.id)
           unless User.where(email: inv.email).first.nil?
@@ -97,7 +109,7 @@ class FantasyLeaguesController < ApplicationController
 
   def switch_player
 
-    unless params[:fantasy_league_id].nil? 
+    unless params[:fantasy_league_id].nil?
       f_league = FantasyLeague.find(params[:fantasy_league_id]) rescue nil
       unless f_league.nil?
         f_week = f_league.current_week
@@ -107,7 +119,7 @@ class FantasyLeaguesController < ApplicationController
         f_player = f_team.players.find(params[:f_player_id]) #rescue nil
 
         unless s_player.nil?
-          
+
           if s_player.eligible?
             used_players = current_user_participant.get_used_players(f_player.position)
             unless used_players.include?(s_player)
@@ -120,7 +132,7 @@ class FantasyLeaguesController < ApplicationController
 
               flash[:success] = "Successfully added #{s_player.name}"
               redirect_to fantasy_league_fantasy_team_path(f_league, f_team)
-              
+
             else
               flash[:error] = "Sports Player has already been used in previous weeks"
               redirect_to fantasy_league_fantasy_team_path(f_league, f_team)

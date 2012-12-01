@@ -1,7 +1,7 @@
 .row
   .span12
     %h2
-      = "Team #{@team.participant.user.email_prefix}"
+      = "team #{@team.participant.user.email_prefix}"
     %div
       %table.table.table-bordered.table-hover.table-team
         %thead
@@ -34,8 +34,8 @@
                   %td
                     = player_stat(f_player.player.stats.find_by_stat(cat[0], sub_cat)) if f_player.has_player?
               %td
-                = f_player.total if f_player.has_player? 
-    = link_to "Back to League", fantasy_league_path(params[:fantasy_league_id]), class: 'btn btn-large'
+                = f_player.total if f_player.has_player?
+    = link_to "back to league", fantasy_league_path(params[:fantasy_league_id]), class: 'btn btn-large'
 
 = content_for :debug do
   = "Team: #{@team.id}"

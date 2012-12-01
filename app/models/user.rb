@@ -12,7 +12,7 @@ class User
 
   validates_presence_of :email
   validates_presence_of :encrypted_password
-  
+
   ## Recoverable
   field :reset_password_token,   :type => String
   field :reset_password_sent_at, :type => Time
@@ -28,15 +28,19 @@ class User
   field :last_sign_in_ip,    :type => String
 
   has_many :fantasy_leagues, autosave: true
-  
+
 
   attr_accessible :email, :password, :password_confirmation, :remember_me
   accepts_nested_attributes_for :fantasy_leagues, :allow_destroy => true
 
   def leagues_belong_to
-    FantasyLeague.where(status: :active).select do |league| 
+    FantasyLeague.where(status: :active).select do |league|
       !league.participants.find_by_user(self).nil?
     end
+  end
+
+  def pending_invitations
+    FantasyInvitation.all_in(email: email, status: 'pending')
   end
 
   def email_prefix

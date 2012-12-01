@@ -1,8 +1,8 @@
-%h2 Create A New League
+%h2 create a new league
 = simple_form_for(@fantasy_league, html: { class: 'form-horizontal no-label-form'}) do |f|
   = f.error_notification
   .form-inputs
-    = f.input :name, :required => true, label: false, placeholder: "League Name"
-    = f.button :submit, "Create", class: 'btn btn-large btn-primary'
+    = f.input :name, :required => true, label: false, placeholder: "league name"
+    = f.button :submit, "create", class: 'btn btn-large btn-primary'
     or
-    = link_to "Cancel", root_path
+    = link_to "cancel", root_path

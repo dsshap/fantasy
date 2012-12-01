@@ -12,6 +12,12 @@ body{
   background-color: #FFFFFF;
 }
 
+.btn-success {
+  small{
+    color: #FFF!important;
+  }
+}
+
 .panel {
   background-color: #FFFFFF;
   border: 1px solid #E5E5E5;
@@ -33,7 +39,7 @@ footer {
 .btn-fantasy-team {
   text-align:left;
   margin-bottom: 20px;
-  
+
   .fantasy-league-info{
     padding-left:25px;
   }
@@ -48,14 +54,16 @@ footer {
 
   .btn-create-fantasy-league {
     height: 110px !important;
-
-    
   }
+}
+
+.invitations {
+  margin-top: 20px;
 }
 
 .table-team {
   thead {
-    
+
   }
 }
 
@@ -81,7 +89,7 @@ footer {
 .table, .table {
   th, td {
     border-top: 1px solid #BABABA
-  } 
+  }
 }
 
 .table-bordered {

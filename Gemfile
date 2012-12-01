@@ -35,7 +35,7 @@ gem "kaminari", "0.14.1"
 gem "evently", "0.0.3"
 gem "state_machine", "~> 1.1.2"
 
-gem 'sidekiq', "2.5.3"
+gem 'sidekiq', "2.5.4"
 gem 'sinatra', require: false
 gem 'slim'
 gem "autoscaler", "~> 0.0.3"

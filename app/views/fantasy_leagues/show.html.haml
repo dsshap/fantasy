@@ -47,7 +47,7 @@
       %thead
         %tr
           %th
-            Invite League Players
+            invite league players
 
       %tbody
         %tr
@@ -55,7 +55,7 @@
             = form_tag( fantasy_league_new_invitation_path(@fantasy_league.id), {:class => "form-search"} ) do
               / = f.error_notification
               = email_field_tag :email, nil, placeholder: "Email", class: 'input-medium'
-              = button_tag "Invite", class: 'btn btn-success'
+              = button_tag "invite", class: 'btn btn-success'
 
         - @pending_inv.each do |inv|
           %tr
@@ -66,9 +66,10 @@
 
 .row
   .span12
-    = link_to "Back to Leagues", root_path, class: 'btn btn-large'
+    = link_to "edit my team", fantasy_league_fantasy_team_path(@fantasy_league, @team), class: 'btn btn-primary btn-large' if @team.active?
+    = link_to "back to leagues", root_path, class: 'btn btn-large'
 
-    
+
 
 
 = content_for :debug do
