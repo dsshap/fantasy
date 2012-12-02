@@ -1,6 +1,7 @@
 class InvitationMailer < ActionMailer::Base
 
-  default :from => "dss.shapiro@gmail.com"
+  default :from => "Old Town Sports<team@oldtownsports.com>"
+  default :reply_to => "pinkyandthebrain@oldtownsports.com"
 
   def invite(inv)
     inv.email, inv.fantasy_league.name, inv.join_league_link
