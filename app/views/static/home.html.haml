@@ -1,0 +1,25 @@
+.row
+  .span8
+
+    %h1
+      Old Town Sports
+    %p
+      We know, we also hate how fantasy sports end during the regular season, so we did something about it, and now you get to reap the rewards. Sign up now for our free fantasy football playoff game.
+    %h3
+      Fantasy Football Playoffs
+    %h5
+      Here’s how we run our show:
+    %p
+      Each week during the playoffs, you compete against your league by selection a QB, RB, and two WR/TE. Seems easy enough? Yeah, there’s a catch. You can only select a player one time, so play your cards wrong and you’ll be starting a backup QB in the Super Bowl.
+  .span4
+    %h1 sign up
+    = simple_form_for(@user, :as => @user, :url => registration_path(@user), html: { class: 'form-horizontal no-label-form'}) do |f|
+      = f.error_notification
+      .form-inputs
+        = f.input :email, :required => true, label: false, placeholder: "email"
+        = f.input :password, :required => true, label: false, placeholder: "password"
+        = f.input :password_confirmation, :required => true, label: false, placeholder: "password confirmation"
+        = f.button :submit, "sign up", class: 'btn btn-large btn-primary'
+
+
+

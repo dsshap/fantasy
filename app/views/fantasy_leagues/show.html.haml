@@ -5,6 +5,9 @@
     - if @league_owner
       %h6
         = link_to "edit league settings", edit_fantasy_league_path(@fantasy_league)
+    -else
+      %h6
+        = link_to "view league settings", fantasy_league_scoring_settings_path(@fantasy_league)
 
 .row
   .span8
@@ -54,15 +57,13 @@
           %td(colspan=2)
             = form_tag( fantasy_league_new_invitation_path(@fantasy_league.id), {:class => "form-search"} ) do
               / = f.error_notification
-              = email_field_tag :email, nil, placeholder: "Email", class: 'input-medium'
+              = email_field_tag :email, nil, placeholder: "email", class: 'input-medium'
               = button_tag "invite", class: 'btn btn-success'
 
         - @pending_inv.each do |inv|
           %tr
             %td
               = "#{inv.email} ( #{inv.status} )"
-
-
 
 .row
   .span12

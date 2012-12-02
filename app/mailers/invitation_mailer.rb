@@ -2,10 +2,12 @@ class InvitationMailer < ActionMailer::Base
 
   default :from => "dss.shapiro@gmail.com"
 
-  def invite(email, league_name, link)
-    @league_name = league_name
-    @email = email
-    @link = link
+  def invite(inv)
+    inv.email, inv.fantasy_league.name, inv.join_league_link
+    @league_name = inv.fantasy_league.name
+    @email = inv.email
+    @link = inv.join_league_link
+    @inviter_email = inv.inviter_email
     mail(:to => email,
          :subject => "Old Town Sports Invitation to Fantasy League: #{league_name}")
   end

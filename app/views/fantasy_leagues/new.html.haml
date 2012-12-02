@@ -1,4 +1,8 @@
 %h2 create a new league
+- if current_user.leagues_belong_to.count.zero?
+  %p
+    Yeah, we’re savvy enough to know you aren’t already in a league, so get one started and invite your friends (that step comes next).
+
 = simple_form_for(@fantasy_league, html: { class: 'form-horizontal no-label-form'}) do |f|
   = f.error_notification
   .form-inputs

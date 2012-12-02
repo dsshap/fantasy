@@ -7,7 +7,7 @@ class FantasyInvitationEmailWorker
     inv = FantasyInvitation.find(fantasy_invitation_id) rescue nil
 
     unless inv.nil?
-      InvitationMailer.invite(inv.email, inv.fantasy_league.name, inv.join_league_link).deliver
+      InvitationMailer.invite(inv).deliver
     end
   end
 

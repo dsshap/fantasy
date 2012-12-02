@@ -12,8 +12,8 @@
             = league_tab
           %li{class: (current_page?(contact_path) ? "active" : "")}
             = link_to "contact", contact_path
-          %li{class: (current_page?(faq_path) ? "active" : "")}
-            = link_to "faq", faq_path
+          %li{class: (current_page?(how_it_works_path) ? "active" : "")}
+            = link_to "how it works", how_it_works_path
         %p.navbar-text.pull-right
           = link_to "edit account", edit_user_registration_path, class: 'navbar-link'
           &nbsp;

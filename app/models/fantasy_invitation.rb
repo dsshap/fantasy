@@ -6,8 +6,9 @@ class FantasyInvitation
   belongs_to :fantasy_league
 
   field :email
+  field :inviter_email
 
-  attr_accessible :email
+  attr_accessible :email, :inviter_email
 
   validates :email,
             :presence => true,

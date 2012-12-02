@@ -9,21 +9,21 @@
       .nav-collapse.collapse
         %ul.nav
           %li{class: (current_page?(root_path) ? "active" : "")}
-            = link_to "Home", root_path
+            = link_to "home", root_path
           %li{class: (current_page?(new_user_registration_path) ? "active" : "")}
-            = link_to "Sign Up", new_user_registration_path
+            = link_to "sign up", new_user_registration_path
           %li{class: (current_page?(contact_path) ? "active" : "")}
-            = link_to "Contact", contact_path
-          %li{class: (current_page?(faq_path) ? "active" : "")}
-            = link_to "Faq", faq_path
+            = link_to "contact", contact_path
+          %li{class: (current_page?(how_it_works_path) ? "active" : "")}
+            = link_to "how it works", how_it_works_path
         %ul.nav.pull-right
           %li.dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown"}
-              Sign In
+              sign in
               %b.caret
             %ul.dropdown-menu
               = simple_form_for User.new, url: user_session_path, html: { class: 'form-horizontal sign_in_form_drop_down'} do |f|
-                = f.input :email, label: false, placeholder: "Email", :autofocus => true
-                = f.input :password, label: false, placeholder: "Password", required: true
-                = f.input :remember_me, :as => :boolean, :inline_label => 'remember me', :label => false 
-                = f.submit "Sign In", class: 'btn btn-primary'
+                = f.input :email, label: false, placeholder: "email", :autofocus => true
+                = f.input :password, label: false, placeholder: "password", required: true
+                = f.input :remember_me, :as => :boolean, :inline_label => 'remember me', :label => false
+                = f.submit "sign in", class: 'btn btn-primary'

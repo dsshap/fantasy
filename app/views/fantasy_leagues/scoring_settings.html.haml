@@ -1,0 +1,25 @@
+.row
+  .span8.offset2
+    %h2
+      = "#{@fantasy_league.name} settings"
+    %table.table
+      %thead
+        %tr
+          %th
+            Category
+          %th
+            For Every
+          %th
+            Points
+      %tbody
+        - @fantasy_league.scorings.each do |score|
+          %tr
+            %td
+              %strong
+                = "#{score.category} :: #{score.sub_category}"
+            %td
+              = score.interval
+            %td
+              = score.points
+
+    = link_to "back to league", fantasy_league_path(params[:fantasy_league_id]), class: 'btn btn-large'

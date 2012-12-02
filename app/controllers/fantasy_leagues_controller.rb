@@ -41,6 +41,16 @@ class FantasyLeaguesController < ApplicationController
     end
   end
 
+  def scoring_settings
+    @fantasy_league = FantasyLeague.find(params[:fantasy_league_id]) rescue nil
+
+    if @fantasy_league.nil?
+      flash[:error] = "Fantasy League does not exist"
+      redirect_to root_path
+    end
+
+  end
+
   def new_invitation
     @fantasy_league = FantasyLeague.find(params[:fantasy_league_id]) rescue nil
     email = params[:email]
@@ -49,7 +59,7 @@ class FantasyLeaguesController < ApplicationController
       if @fantasy_league.invitations.all_in(email: email, status: 'pending').count.zero?
         if @fantasy_league.invitations.where(email: email).count.zero?
 
-          inv = @fantasy_league.invitations.new email: email
+          inv = @fantasy_league.invitations.new email: email, inviter_email: current_user.email
 
           if inv.save
             flash[:notice] = "Successfully invited #{email}!"

@@ -4,7 +4,7 @@
     - @fantasy_leagues.in_groups_of(2, false).each do |row|
       - row.each do |league|
         = link_to(content_tag(:div, (content_tag(:h2, league.name) + content_tag(:h5, "players: #{league.participants.count}")), class: "fantasy-league-info"), fantasy_league_path(league), class: "btn btn-large btn-block btn-fantasy-team span5")
-    = link_to(content_tag(:h3, "create fantasy league"), new_fantasy_league_path, class: "btn btn-primary btn-large btn-block btn-create-fantasy-league span5" )
+    = link_to(content_tag(:h3, "create a new league"), new_fantasy_league_path, class: "btn btn-primary btn-large btn-block btn-create-fantasy-league span5" )
 .row.invitations
   .span11
     - unless @fantasy_league_invitations.nil?
