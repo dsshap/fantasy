@@ -1,0 +1,6 @@
+$('#posts').append('<%= j render(@posts) %>');
+<% if @posts.current_page != @posts.total_pages %>
+  $('.load_more').html('<%= link_to_next_page(@posts, "load more posts", :remote => true).html_safe %>');
+<% else %>
+  $('.load_more').remove();
+<% end %>

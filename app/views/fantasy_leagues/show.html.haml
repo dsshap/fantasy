@@ -8,6 +8,8 @@
     -else
       %h6
         = link_to "view league settings", fantasy_league_scoring_settings_path(@fantasy_league)
+  .span4
+    = link_to "edit my team", fantasy_league_fantasy_team_path(@fantasy_league, @team), class: 'btn btn-primary btn-large' if @team.active?
 
 .row
   .span8
@@ -67,8 +69,24 @@
 
 .row
   .span12
-    = link_to "edit my team", fantasy_league_fantasy_team_path(@fantasy_league, @team), class: 'btn btn-primary btn-large' if @team.active?
     = link_to "back to leagues", root_path, class: 'btn btn-large'
+
+
+.row
+  .span12
+    %h2 Message Board
+    = form_for(@new_post, url: fantasy_league_add_message_board_post_path(@fantasy_league), :html => { class: 'form-inline' }) do |f|
+      = f.text_field :text, label: false, placeholder: "what do u have to say..."
+      = f.submit "post", class: 'btn btn-info'
+    %div{id: 'posts'}
+      = render @posts
+      / - @posts.each do |post|
+
+    .load_more
+      = link_to_next_page @posts, 'load more posts', :remote => true
+    /= paginate @posts
+
+
 
 
 

@@ -11,7 +11,7 @@ class RegistrationsController < Devise::RegistrationsController
       unless session[:invitation_ids].nil?
         session[:invitation_ids].each do |invitation_id|
           inv = FantasyInvitation.find(invitation_id)
-          if inv.email.eql?(resource.email)
+          if inv.email.casecmp(resource.email)
             inv.join_league(resource)
           end
         end

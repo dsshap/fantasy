@@ -34,6 +34,8 @@ class FantasyLeaguesController < ApplicationController
       end
       @pending_inv = @fantasy_league.get_pending_invitations
       @team = @week.current_team(@current_user_participant)
+      @posts = @fantasy_league.get_message_board.posts.desc(:created_at).page(params[:page]).per(10)
+      @new_post = MessageBoardPost.new
 
       Evently.record(current_user, 'viewed', @fantasy_league, @week)
     else
@@ -160,6 +162,36 @@ class FantasyLeaguesController < ApplicationController
         redirect_to root_path
       end
     else
+      redirect_to root_path
+    end
+
+  end
+
+  def add_message_board_post
+    unless params[:fantasy_league_id].nil?
+      f_league = FantasyLeague.find(params[:fantasy_league_id]) rescue nil
+      unless f_league.nil?
+
+        msg_b = f_league.get_message_board
+        post = msg_b.posts.new params[:message_board_post]
+        post.participant = current_user_participant(f_league)
+
+        if post.valid?
+          post.save
+          flash[:notice] = "posted to message board"
+          redirect_to fantasy_league_path(f_league)
+        else
+          flash[:notice] = "message not posted because #{post.errors.full_messages}"
+          redirect_to fantasy_league_path(f_league)
+        end
+
+
+      else
+        flash[:error] = "Fantasy League does not exist"
+        redirect_to root_path
+      end
+    else
+      flash[:error] = "Fantasy League id was not passed"
       redirect_to root_path
     end
 

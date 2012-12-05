@@ -1,4 +1,4 @@
-class ApplicationController < ActionController::Base  
+class ApplicationController < ActionController::Base
   protect_from_forgery
   layout :decide_which_layout
 
@@ -19,6 +19,10 @@ protected
       session[:invitation_ids] = Array.new
     end
     session[:invitation_ids].push(invite_id)
+  end
+
+  def current_user_participant(fantasy_league)
+    fantasy_league.participants.find_by_user(current_user)
   end
 
 end

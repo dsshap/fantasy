@@ -14,7 +14,7 @@ class FantasyLeague
       where(category: category, sub_category: sub_category).first
     end
   end
-  
+
   embeds_many :weeks, class_name: 'FantasyWeek', cascade_callbacks: true
   embeds_many :participants, class_name: 'FantasyParticipant', cascade_callbacks: true do
     def find_by_user(user)
@@ -23,9 +23,10 @@ class FantasyLeague
   end
 
   has_many :invitations, class_name: 'FantasyInvitation'
+  has_one :message_board
 
-  attr_accessible :name, :current_week_number, :scorings_attributes, :invitations_attributes
-  accepts_nested_attributes_for :weeks, :participants, :scorings, :invitations, :allow_destroy => true
+  attr_accessible :name, :current_week_number, :scorings_attributes, :invitations_attributes, :message_board_attributes
+  accepts_nested_attributes_for :weeks, :participants, :scorings, :invitations, :message_board, :allow_destroy => true
 
   validates_presence_of :name
 
@@ -37,6 +38,14 @@ class FantasyLeague
     event :finish do
       transition :active => :finished
     end
+  end
+
+  def get_message_board
+    if message_board.nil?
+      self.message_board = MessageBoard.new
+      self.save
+    end
+    message_board
   end
 
   def get_all_invitations
