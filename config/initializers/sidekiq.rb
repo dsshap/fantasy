@@ -16,6 +16,7 @@ if ENV['HEROKU_APP']
 end
 
 Sidekiq.configure_client do |config|
+  config.redis = { :size => 1 }
   if heroku
     config.client_middleware do |chain|
       chain.add Autoscaler::Sidekiq::Client, heroku
@@ -29,6 +30,7 @@ end
 # import: env HEROKU_PROCESS=import bundle exec sidekiq -q import -c 1 -r ./background/boot.rb
 
 Sidekiq.configure_server do |config|
+  config.redis = { :size => 5 }
   config.server_middleware do |chain|
     if heroku && ENV['HEROKU_PROCESS'] && heroku[ENV['HEROKU_PROCESS']]
       p "Setting up auto-scaledown"
