@@ -11,7 +11,6 @@ ActiveAdmin.register_page 'Events' do
       tbody do
         (@events = Kaminari.paginate_array(Evently.desc(:created_at)).page(params[:page]).per(50)).each do |event|
           tr class: cycle('odd', 'even') do
-            p "sdfsd"
             td event_autolink(event.event_parts)
             td do
               span style: 'white-space: nowrap' do

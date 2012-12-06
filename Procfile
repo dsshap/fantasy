@@ -1,2 +1,2 @@
 web: bundle exec thin start -p $PORT -e $RACK_ENV
-worker: bundle exec sidekiq -c 4
+default: env HEROKU_PROCESS=default bundle exec sidekiq -c 4
