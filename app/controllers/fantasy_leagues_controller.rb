@@ -36,6 +36,7 @@ class FantasyLeaguesController < ApplicationController
       @team = @week.current_team(@current_user_participant)
       @posts = @fantasy_league.get_message_board.posts.desc(:created_at).page(params[:page]).per(10)
       @new_post = MessageBoardPost.new
+      @total_points = @fantasy_league.get_total_league_points
 
       Evently.record(current_user, 'viewed', @fantasy_league, @week)
     else
@@ -64,7 +65,7 @@ class FantasyLeaguesController < ApplicationController
           inv = @fantasy_league.invitations.new email: email, inviter_email: current_user.email
 
           if inv.save
-            flash[:notice] = "Successfully invited #{email}!"
+            flash[:success] = "Successfully invited #{email}!"
           else
             flash[:error] = inv.errors.full_messages
           end
@@ -84,7 +85,6 @@ class FantasyLeaguesController < ApplicationController
     invitation_id = params[:invitation_id]
     inv = FantasyInvitation.find(invitation_id) rescue nil
     unless inv.nil? or inv.accepted?
-      p "found inv and its good"
       if inv.fantasy_league.id.to_s.eql?(params[:fantasy_league_id])
         if user_signed_in?
           if inv.email.eql?(current_user.email)
@@ -101,6 +101,19 @@ class FantasyLeaguesController < ApplicationController
       end
     end
     redirect_to root_path
+  end
+
+  def resend_invitation
+    invitation_id = params[:invitation_id]
+    inv = FantasyInvitation.find(invitation_id) rescue nil
+    unless inv.nil? or inv.accepted?
+      inv.send_invite
+      Evently.record(current_user, 're-sent invitation', inv)
+      flash[:success] = "Successfully resent inviation to #{inv.email}"
+      redirect_to fantasy_league_path(inv.fantasy_league) and return
+    end
+    flash[:error] = "Invitation does not exist"
+    redirect_to fantasy_league_path(params[:fantasy_league_id])
   end
 
   def edit
@@ -197,5 +210,33 @@ class FantasyLeaguesController < ApplicationController
 
   end
 
+  def change_name
+    unless params[:fantasy_league_id].nil? or params[:fantasy_participant][:team_name].nil?
+      f_league = FantasyLeague.find(params[:fantasy_league_id]) rescue nil
+      unless f_league.nil?
+
+        participant = f_league.participants.find_by_user(current_user) rescue nil
+
+        unless participant.nil?
+
+          participant.team_name = params[:fantasy_participant][:team_name]
+          participant.save
+          Evently.record(current_user, 'changed name team to', participant.team_name)
+          flash[:success] = "Successfully changed team name to #{participant.team_name}"
+          redirect_to fantasy_league_fantasy_team_path(f_league, participant.get_current_team          )
+
+        else
+          flash[:error] = "Participant does not exist"
+          redirect_to fantasy_league_path(f_league)
+        end
+
+      else
+        redirect_to root_path
+      end
+    else
+      redirect_to root_path
+    end
+
+  end
 
 end

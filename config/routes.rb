@@ -46,10 +46,12 @@ Fantasy::Application.routes.draw do
 
   resources :fantasy_leagues, except: :delete do
     post :new_invitation
+    get 'resend_invitation/:invitation_id' => "fantasy_leagues#resend_invitation", as: :resend_invitation
     get :scoring_settings
     post :add_message_board_post
     get "/join_league/:invitation_id" => "fantasy_leagues#join_league", as: :join_league
     get "/switch_player/:s_player_id/to/:f_player_id" => "fantasy_leagues#switch_player", as: :switch_player
+    put :change_name
     resources :fantasy_teams, only: [:show, :edit, :update] do
       get "/drop_player/:f_player_id" => "fantasy_teams#drop_player", as: :drop_player
     end
@@ -58,14 +60,7 @@ Fantasy::Application.routes.draw do
     end
   end
 
-
-
-  post '/teams' => 'fantasy_teams#index'
-  post '/team' => 'fantasy_teams#show'
-
-  # resources :fantasy_teams, only: [:index, :show] do
-
-  # end
+  get "sign-in-as/:user_id", :to => "sign_in_as#create", :as => :sign_in_as
 
   %w[home contact how_it_works].each do |page|
     get page => 'static#'+page

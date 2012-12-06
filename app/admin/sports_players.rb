@@ -4,7 +4,7 @@ ActiveAdmin.register SportsPlayer do
 
   controller do
 
-    
+
 
     def new
       @sports_league = SportsLeague.find(params[:sports_league_id])
@@ -19,7 +19,7 @@ ActiveAdmin.register SportsPlayer do
       sports_player = sports_week.players.new params[:sports_player]
 
       if sports_player.save!
-        respond_with sports_player, location: admin_sports_league_sports_week_sports_player_path(sports_league, sports_week, sports_player)
+        respond_with sports_player, location: admin_sports_league_sports_week_path(sports_league, sports_week)
       else
         respond_with sports_player, location: edit_admin_sports_league_sports_week_sports_player_path(sports_league, sports_week, sports_player)
       end
@@ -58,7 +58,7 @@ ActiveAdmin.register SportsPlayer do
       sports_player = SportsLeague.find(params[:sports_league_id]).weeks.find(params[:sports_week_id]).players.find(params[:sports_player_id])
       sports_player.in_play
       flash[:notice] = "#{sports_player.name} is now playing!"
-      redirect_to admin_sports_league_sports_week_sports_player_path(params[:sports_league_id], params[:sports_week_id], params[:sports_player_id])
+      redirect_to admin_sports_league_sports_week_path(params[:sports_league_id], params[:sports_week_id])
     end
 
     def done_playing
@@ -90,7 +90,7 @@ ActiveAdmin.register SportsPlayer do
 
   show do
     attributes_table do
-      row :id 
+      row :id
       row(:sports_league){|player| player.sports_week.sports_league.name}
       row(:sports_week){|player| player.sports_week.week_number}
       row :name

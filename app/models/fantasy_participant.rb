@@ -6,9 +6,10 @@ class FantasyParticipant
   embedded_in :fantasy_league
 
   field :user_id,       type: Moped::BSON::ObjectId
+  field :team_name
   field :is_owner,      type: Boolean,                  default: false
 
-  attr_accessible :user_id, :user, :is_owner
+  attr_accessible :user_id, :user, :is_owner, :team_name
 
   validates_presence_of :user_id
 

@@ -3,11 +3,11 @@ ActiveAdmin.register User do
 
   index do
     column(:email){|user| link_to user.email, admin_user_path(user)}
-    column :current_sign_in_at        
-    column :last_sign_in_at           
-    column :sign_in_count             
-    default_actions                   
-  end 
+    column :current_sign_in_at
+    column :last_sign_in_at
+    column :sign_in_count
+    default_actions
+  end
 
   filter :email, :as => :string
 
@@ -15,10 +15,11 @@ ActiveAdmin.register User do
     attributes_table do
       row :id
       row :email
+      row(:sign_in_as){|u| link_to "sign in as", sign_in_as_path(:user_id => u.id) }
     end
 
     panel "Fantasy Leagues (Owner)" do
-      table_for user.fantasy_leagues do 
+      table_for user.fantasy_leagues do
         column("Name"){|league| link_to league.name, admin_fantasy_league_path(league)}
         column :sport
         column :status
@@ -28,7 +29,7 @@ ActiveAdmin.register User do
 
     panel "Fantasy Leagues (Participating In)" do
       participating_in = user.leagues_belong_to - user.fantasy_leagues
-      table_for participating_in do 
+      table_for participating_in do
         column("Name"){|league| link_to league.name, admin_fantasy_league_path(league)}
         column :sport
         column :status

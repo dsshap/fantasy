@@ -1,7 +1,14 @@
 .row
   .span12
-    %h2
-      = "team #{@team.participant.user.email_prefix}"
+    .row
+      .span7
+        %h2
+          = team_name(@team, true)
+      .span5
+        - if @is_owner
+          = form_for(@team.participant, url: fantasy_league_change_name_path(params[:fantasy_league_id], @team.participant), :html => { class: 'form-inline pull-right' }) do |f|
+            = f.text_field :team_name, placeholder: "change team name to"
+            = f.submit "change team name", class: 'btn btn-info'
     %div
       %table.table.table-bordered.table-hover.table-team
         %thead

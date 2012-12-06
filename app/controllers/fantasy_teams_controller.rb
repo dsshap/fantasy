@@ -2,7 +2,7 @@ class FantasyTeamsController < ApplicationController
 
   def show
     @team = nil
-    unless params[:fantasy_league_id].nil? 
+    unless params[:fantasy_league_id].nil?
       f_league = FantasyLeague.find(params[:fantasy_league_id]) rescue nil
       unless f_league.nil?
         unless params[:id].nil?
@@ -18,9 +18,10 @@ class FantasyTeamsController < ApplicationController
             end
 
             if @team.nil?
-              redirect_to fantasy_league_path(f_league)        
+              redirect_to fantasy_league_path(f_league)
             else
               @is_owner = @team.team_owner?(current_user)
+              @total_points = f_league.get_total_league_points
 
               Evently.record(current_user, 'viewed', @team)
 
@@ -42,7 +43,7 @@ class FantasyTeamsController < ApplicationController
   end
 
   def drop_player
-    unless params[:fantasy_league_id].nil? 
+    unless params[:fantasy_league_id].nil?
       f_league = FantasyLeague.find(params[:fantasy_league_id]) rescue nil
       unless f_league.nil?
         unless params[:fantasy_team_id].nil?
@@ -74,7 +75,7 @@ class FantasyTeamsController < ApplicationController
                 else
                   redirect_to fantasy_league_fantasy_team_path(f_league, f_team)
                 end
-  
+
               else
                 redirect_to fantasy_league_path(f_league)
               end
@@ -84,6 +85,48 @@ class FantasyTeamsController < ApplicationController
             redirect_to fantasy_league_path(f_league)
           end
 
+        else
+          redirect_to fantasy_league_path(f_league)
+        end
+      else
+        redirect_to root_path
+      end
+    else
+      redirect_to root_path
+    end
+  end
+
+
+  def change_name
+    team = nil
+    unless params[:fantasy_league_id].nil? or params[:new_name].nil?
+      f_league = FantasyLeague.find(params[:fantasy_league_id]) rescue nil
+      unless f_league.nil?
+        unless params[:id].nil?
+
+          team_id = Moped::BSON::ObjectId(params[:id]) rescue nil
+
+          unless team_id.nil?
+            f_league.weeks.each do |week|   #.find(params[:fantasy_week_id]).teams.find(params[:id]) rescue nil
+              if week.teams.collect(&:id).include?(team_id)
+                team = week.teams.find(params[:id]) rescue nil
+                break
+              end
+            end
+
+            if team.nil?
+              redirect_to fantasy_league_path(f_league)
+            else
+
+              team.name = params[:new_name]
+              team.save
+              Evently.record(current_user, 'changed name team to', team.name)
+              flash[:success] = "Successfully changed team name to #{team.name}"
+            end
+
+          else
+            redirect_to fantasy_league_path(f_league)
+          end
         else
           redirect_to fantasy_league_path(f_league)
         end

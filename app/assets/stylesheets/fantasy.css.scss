@@ -27,7 +27,9 @@ body{
   margin-bottom: 20px;
 }
 
-
+hr {
+  border-style: outset none !important;
+}
 
 footer {
   margin-top: 60px;
@@ -105,11 +107,19 @@ footer {
 }
 
 
-  .league-settings {
-    input {
-      vertical-align:top!important;
-    }
+.league-settings {
+  input {
+    vertical-align:top!important;
   }
+}
+
+
+.sign_in_form_drop_down {
+  .radio input[type="radio"], .checkbox input[type="checkbox"] {
+    float: left;
+    margin-left: -10px !important;
+  }
+}
 
 
 

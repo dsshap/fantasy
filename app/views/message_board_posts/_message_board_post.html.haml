@@ -4,4 +4,4 @@
   %small
     = message_board_post.participant.user.email_prefix
     @
-    = message_board_post.created_at.strftime('%b %e, %Y %l:%M %p')
+    = message_board_post.created_at.strftime('%b %e, %Y %l:%M %p').downcase

@@ -40,6 +40,10 @@ class FantasyLeague
     end
   end
 
+  def get_total_league_points
+    weeks.collect{|w| w.teams_by_standing.collect(&:get_weeks_total_points)}.flatten!
+  end
+
   def get_message_board
     if message_board.nil?
       self.message_board = MessageBoard.new

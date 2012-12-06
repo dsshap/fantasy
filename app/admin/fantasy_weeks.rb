@@ -34,7 +34,7 @@ ActiveAdmin.register FantasyWeek do
 
   show do
     attributes_table do
-      row :id 
+      row :id
       row(:fantasy_league){|week| week.fantasy_league.name}
       row :week_number
       row :status
@@ -45,7 +45,7 @@ ActiveAdmin.register FantasyWeek do
     panel "Teams" do
       table_for fantasy_week.teams do
         column(:team_id){|team| link_to team.id, admin_fantasy_league_fantasy_week_fantasy_team_path(team.fantasy_week.fantasy_league, team.fantasy_week, team) }
-        column(:participant){|team| link_to team.participant.user.email, admin_user_path(team.participant) }
+        column(:participant){|team| link_to "#{team.participant.user.email} (#{team.participant.team_name})", admin_user_path(team.participant) }
         column :status
         column :updated_at
         column :created_at
@@ -53,5 +53,5 @@ ActiveAdmin.register FantasyWeek do
     end
   end
 
-  
+
 end

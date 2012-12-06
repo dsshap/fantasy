@@ -8,7 +8,7 @@ module FantasyLeagueHelper
     end
 
 
-    # unless params[:week_number].nil? 
+    # unless params[:week_number].nil?
     #   if week.week_number.eql?(params[:week_number].to_i)
     #     class_str << 'active'
     #   end
@@ -20,5 +20,37 @@ module FantasyLeagueHelper
     class_str
   end
 
+  def show_participant_invitation_actions(inv)
+    if @league_owner
+      "#{inv.email} (#{link_to "re-send", fantasy_league_resend_invitation_path(inv.fantasy_league, inv)})".html_safe
+    else
+      "#{inv.email} (pending)"
+    end
+  end
+
+  def team_name(team, extended=false)
+    if team.participant.team_name.nil?
+      "#{team.participant.user.email_prefix}"
+    else
+      name = "#{team.participant.team_name} "
+      if extended
+        name << "<small>#{team.participant.user.email_prefix}</small>"
+      end
+      name.html_safe
+    end
+  end
+
+
+  def team_rank(team)
+    team_total_points = team.get_weeks_total_points
+    index = @total_points.index(team_total_points) + 1
+
+    msg = ""
+    if @total_points.count(team_total_points) > 1
+      msg = "tied for "
+    end
+    msg << index.ordinalize
+    msg
+  end
 end
 

@@ -11,6 +11,9 @@ class FantasyWeek
     def find_by_participant(participant)
       where(participant_id: participant.id).first
     end
+    def find_all_by_participant(participant)
+      where(participant_id: participant.id)
+    end
   end
 
   attr_accessible :week_number
@@ -27,6 +30,10 @@ class FantasyWeek
 
   def name
     "Week: #{week_number}"
+  end
+
+  def teams_by_standing
+    teams.sort_by{|t| -t.get_weeks_total_points}
   end
 
   def can_make_team?(participant)

@@ -51,6 +51,10 @@ class FantasyTeam
     'team: ' + participant.user.email
   end
 
+  def get_weeks_total_points
+    players.collect(&:total).inject(0){|sum,x| sum+x}
+  end
+
   def participant_can_only_make_one_team_per_week
     unless fantasy_week.can_make_team?(participant)
       errors.add(:participant, 'user already has a team for this week')

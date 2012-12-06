@@ -66,7 +66,7 @@ ActiveAdmin.register SportsWeek do
 
   show do
     attributes_table do
-      row :id 
+      row :id
       row(:sports_league){|week| week.sports_league.name}
       row :week_number
       row :status
@@ -78,11 +78,12 @@ ActiveAdmin.register SportsWeek do
       table_for sports_week.players do
         column(:name){|player| link_to player.name, admin_sports_league_sports_week_sports_player_path(player.sports_week.sports_league, player.sports_week, player) }
         column :team
-        column :position 
+        column :position
         column :status
         column :opponent
         column :updated_at
         column :created_at
+        column(:actions){|p| link_to("In Play", admin_sports_league_sports_week_sports_player_in_play_path(p.sports_week.sports_league, p.sports_week, p)) if p.eligible?}
       end
     end
   end

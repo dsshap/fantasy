@@ -51,7 +51,7 @@ ActiveAdmin.register FantasyLeague do
 
     panel "Invitations" do
       table_for fantasy_league.get_all_invitations do
-        column :email
+        column(:email){|i| link_to i.email, admin_fantasy_invitation_path(i)}
         column :status
       end
     end

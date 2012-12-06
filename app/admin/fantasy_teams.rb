@@ -2,7 +2,7 @@ ActiveAdmin.register FantasyTeam do
   actions :none
   config.clear_action_items!
   menu false
-  
+
   controller do
     respond_to *Mime::SET.map(&:to_sym)
     def show
@@ -35,10 +35,11 @@ ActiveAdmin.register FantasyTeam do
 
   show do # "Week #{:id} for leage: #{:fantasy_league}" do
     attributes_table do
-      row :id 
+      row :id
       row(:fantasy_league){|team| team.fantasy_week.fantasy_league.name}
       row(:fantasy_week){|team| team.fantasy_week.week_number}
       row(:participant){|team| team.participant.user.email}
+      row(:team_name){|team| team.participant.team_name}
       row :status
       row :updated_at
       row :created_at
