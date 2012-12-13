@@ -13,6 +13,9 @@
     %li.string.input.stringish
       %label.label
       = f.input :opponent
+    %li.string.input.stringish
+      %label.label
+      = f.input :sports_playing_time, as: :select, collection: SportsPlayingTime.all.collect{ |t| [t.playing_time.strftime('%D %r'), t.id]}
 
 
 = f.fields_for :stats do |f_stat|

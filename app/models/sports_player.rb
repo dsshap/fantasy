@@ -6,9 +6,10 @@ class SportsPlayer
   embedded_in :sports_week
 
   field :name
-  field :team 
+  field :team
   field :position
   field :opponent, default: ""
+  field :sports_playing_time_id
 
   embeds_many :stats, class_name: 'SportsStatistic', cascade_callbacks: true do
     def find_by_stat(category, sub_category)
@@ -16,7 +17,7 @@ class SportsPlayer
     end
   end
 
-  attr_accessible :name, :team, :position, :opponent, :status, :stats_attributes
+  attr_accessible :name, :team, :position, :opponent, :status, :sports_playing_time_id, :sports_playing_time, :stats_attributes
   accepts_nested_attributes_for :stats, :allow_destroy => true
 
   after_create :set_up_stats
@@ -28,6 +29,14 @@ class SportsPlayer
     event :done do
       transition :playing => :done
     end
+  end
+
+  def sports_playing_time
+    @sports_playing_time ||= SportsPlayingTime.find(sports_playing_time_id) rescue nil
+  end
+
+  def sports_playing_time=(str)
+    self.sports_playing_time_id = str
   end
 
   def set_up_stats

@@ -37,7 +37,11 @@ class SportsWeek
   end
 
   def eligable_players
-    players.where(status: 'eligible').to_a
+    players.where(status: 'eligible')
+  end
+
+  def in_play_players
+    players.where(status: 'playing')
   end
 
   def name

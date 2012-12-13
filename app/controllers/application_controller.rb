@@ -6,10 +6,8 @@ protected
 
   def decide_which_layout
     if user_signed_in?
-      p "app"
       'application'
     else
-      p "static"
       'static'
     end
   end

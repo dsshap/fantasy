@@ -35,7 +35,7 @@
               %td
                 = f_player.player.status if f_player.has_player?
               %td
-                = f_player.player.opponent if f_player.has_player?
+                = playing_team(f_player) if f_player.has_player?
               - [["passing", %w[yards tds ints]], ["rushing", %w[yards tds]], ["receiving", %w[receptions yards tds]], ["fumbles", [""]] ].each do |cat|
                 - cat[1].each do |sub_cat|
                   %td

@@ -4,6 +4,11 @@ Fantasy::Application.routes.draw do
 
    namespace :admin do
 
+    resources :sports_playing_times do
+      get :set_in_play, on: :member
+      get :set_to_done, on: :member
+    end
+
     resources :fantasy_leagues do
       resources :fantasy_weeks, :only => [:show, :edit, :update] do
         resources :fantasy_teams, :only => [:show, :edit, :update] do

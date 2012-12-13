@@ -25,6 +25,9 @@ gem 'jquery-rails'
 gem "mongoid", "3.0.9"
 #gem 'activeadmin-mongoid', git: 'https://github.com/elia/activeadmin-mongoid.git'
 gem 'activeadmin-mongoid', :git => 'git://github.com/Ostrzy/activeadmin-mongoid.git', :branch => 'filter_support'
+gem "just-datetime-picker", "~> 0.0.5"
+
+
 gem "devise", ">= 2.1.0"
 gem "simple_form", "~> 2.0.4"
 gem "haml", "3.2.0.rc.1"

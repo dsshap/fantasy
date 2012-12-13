@@ -4,7 +4,11 @@ module FantasyPlayerHelper
     msg = nil
 
     unless f_player.player.nil?
-      msg = f_player.player.name
+      if f_player.player.eligible? and !@is_owner
+        msg = @player_masks.delete_at(0)
+      else
+        msg = f_player.player.name
+      end
 
       if f_player.player.eligible? and @is_owner
         links = link_to("Change", fantasy_league_sports_players_path(params[:fantasy_league_id], position: f_player.position, f_player_id: f_player), class: 'btn btn-mini')
@@ -21,6 +25,14 @@ module FantasyPlayerHelper
       end
     end
     msg.html_safe
+  end
+
+  def playing_team(f_player)
+    if f_player.player.eligible? and !@is_owner
+      @team_masks.delete_at(0)
+    else
+      f_player.player.opponent
+    end
   end
 
   def player_stat(player_stat)
