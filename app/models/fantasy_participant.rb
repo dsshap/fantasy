@@ -22,6 +22,17 @@ class FantasyParticipant
     end
   end
 
+  def total_league_points
+    total_points = 0
+    fantasy_league.weeks.each do |week|
+      team = week.teams.find_by_participant(self)
+      unless team.nil?
+        total_points += team.get_weeks_total_points
+      end
+    end
+    total_points
+  end
+
   def get_used_players(position)
     used_players = Array.new
     fantasy_league.weeks.each do |f_week|

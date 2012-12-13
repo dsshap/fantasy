@@ -42,11 +42,11 @@ module FantasyLeagueHelper
 
 
   def team_rank(team)
-    team_total_points = team.get_weeks_total_points
-    index = @total_points.index(team_total_points) + 1
+    participant_total_points = team.participant.total_league_points
+    index = @total_points.index(participant_total_points) + 1
 
     msg = ""
-    if @total_points.count(team_total_points) > 1
+    if @total_points.count(participant_total_points) > 1
       msg = "tied for "
     end
     msg << index.ordinalize

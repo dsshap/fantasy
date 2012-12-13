@@ -41,8 +41,13 @@ class FantasyLeague
   end
 
   def get_total_league_points
-    weeks.collect{|w| w.teams_by_standing.collect(&:get_weeks_total_points)}.flatten!
+    participants_by_standing.collect{|p| p.total_league_points}
   end
+
+  def participants_by_standing
+    participants.sort_by{|p| -p.total_league_points}
+  end
+
 
   def get_message_board
     if message_board.nil?
