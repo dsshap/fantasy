@@ -33,7 +33,8 @@ class FantasyWeek
   end
 
   def teams_by_standing
-    teams.sort_by{|t| -t.get_weeks_total_points}
+    teams.sort_by{|t| [-t.get_weeks_total_points, -t.participant.total_league_points]}
+    #teams.sort_by{|t| -t.participant.total_league_points}
   end
 
   def can_make_team?(participant)
