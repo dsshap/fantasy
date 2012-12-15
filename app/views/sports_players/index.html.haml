@@ -57,9 +57,14 @@
 
 
 = content_for :debug do
+  Used:
   %br
-  = @used_players
+  = @used_players.collect(&:name)
   %br
-  = @all_players
+  All:
   %br
-  = @available_players
+  = @all_players.collect(&:name)
+  %br
+  Available:
+  %br
+  = @available_players.collect(&:name)
