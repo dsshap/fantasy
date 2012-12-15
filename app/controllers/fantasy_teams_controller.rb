@@ -53,36 +53,40 @@ class FantasyTeamsController < ApplicationController
 
           f_team_id = Moped::BSON::ObjectId(params[:fantasy_team_id]) rescue nil
           unless f_team_id.nil?
-            f_league.weeks.each do |week|   #.find(params[:fantasy_week_id]).teams.find(params[:id]) rescue nil
-              if week.teams.collect(&:id).include?(f_team_id)
-                f_team = week.teams.find(f_team_id) rescue nil
 
-                unless params[:f_player_id].nil?
-                  f_player = f_team.players.find(params[:f_player_id]) rescue nil
+            week = f_league.current_week
 
-                  unless f_player.nil?
-                    s_player = f_player.player
-                    f_player.player_id = nil
-                    f_player.save
+            if week.teams.collect{|t| t.id.to_s}.include?(f_team_id.to_s)
+              f_team = week.teams.find(f_team_id) rescue nil
 
-                    Evently.record(current_user, "dropped", s_player, "from", f_team)
+              unless params[:f_player_id].nil?
+                f_player = f_team.players.find(params[:f_player_id]) rescue nil
 
-                    flash[:success] = "Successfully dropped #{s_player.name}"
-                    redirect_to fantasy_league_fantasy_team_path(f_league, f_team) and return
+                unless f_player.nil?
+                  s_player = f_player.player
+                  f_player.player_id = nil
+                  f_player.save
 
-                  else
-                    flash[:error] = "Fantasy player does not exist"
-                    redirect_to fantasy_league_fantasy_team_path(f_league, f_team) and return
-                  end
+                  Evently.record(current_user, "dropped", s_player, "from", f_team)
+
+                  flash[:success] = "Successfully dropped #{s_player.name}"
+                  redirect_to fantasy_league_fantasy_team_path(f_league, f_team) and return
 
                 else
+                  flash[:error] = "Fantasy player does not exist"
                   redirect_to fantasy_league_fantasy_team_path(f_league, f_team) and return
                 end
 
               else
-                redirect_to fantasy_league_path(f_league) and return
+                flash[:error] = "Fantasy player id is not present"
+                redirect_to fantasy_league_fantasy_team_path(f_league, f_team) and return
               end
+
+            else
+              flash[:error] = "Fantasy Team is not in this week"
+              redirect_to fantasy_league_path(f_league) and return
             end
+
 
           else
             redirect_to fantasy_league_path(f_league) and return
