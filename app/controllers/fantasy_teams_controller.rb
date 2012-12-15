@@ -68,34 +68,34 @@ class FantasyTeamsController < ApplicationController
                     Evently.record(current_user, "dropped", s_player, "from", f_team)
 
                     flash[:success] = "Successfully dropped #{s_player.name}"
-                    redirect_to fantasy_league_fantasy_team_path(f_league, f_team)
+                    redirect_to fantasy_league_fantasy_team_path(f_league, f_team) and return
 
                   else
                     flash[:error] = "Fantasy player does not exist"
-                    redirect_to fantasy_league_fantasy_team_path(f_league, f_team)
+                    redirect_to fantasy_league_fantasy_team_path(f_league, f_team) and return
                   end
 
                 else
-                  redirect_to fantasy_league_fantasy_team_path(f_league, f_team)
+                  redirect_to fantasy_league_fantasy_team_path(f_league, f_team) and return
                 end
 
               else
-                redirect_to fantasy_league_path(f_league)
+                redirect_to fantasy_league_path(f_league) and return
               end
             end
 
           else
-            redirect_to fantasy_league_path(f_league)
+            redirect_to fantasy_league_path(f_league) and return
           end
 
         else
-          redirect_to fantasy_league_path(f_league)
+          redirect_to fantasy_league_path(f_league) and return
         end
       else
-        redirect_to root_path
+        redirect_to root_path  and return
       end
     else
-      redirect_to root_path
+      redirect_to root_path and return
     end
   end
 
