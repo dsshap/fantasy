@@ -2,7 +2,7 @@ Fantasy::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => 'http://www.oldtownsports.com' }
+  config.action_mailer.default_url_options = { :host => 'www.oldtownsports.com' }
   config.action_mailer.delivery_method = :smtp
   # change to true to allow email to be sent during development
   config.action_mailer.perform_deliveries = true
