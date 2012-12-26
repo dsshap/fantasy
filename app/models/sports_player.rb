@@ -3,7 +3,7 @@ class SportsPlayer
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  embedded_in :sports_week
+  belongs_to :sports_week
 
   field :name
   field :team
@@ -52,7 +52,13 @@ class SportsPlayer
     stats.create category: "receiving", sub_category: "tds", value: 0
 
     stats.create category: "fumbles", sub_category: "", value: 0
+    stats.create category: "misc tds", sub_category: "", value: 0
 
+  end
+
+  def sports_week
+
+    @sports_week ||= SportsLeague.get_sport('football').weeks.find(sports_week_id) rescue nil
   end
 
 end

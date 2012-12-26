@@ -7,21 +7,23 @@ class SportsWeek
 
   field :week_number,         type: Integer
 
-  embeds_many :players, class_name: "SportsPlayer", cascade_callbacks: true do
-    def qb
-      where(position: 'qb').to_a
-    end
+  has_many :players, class_name: "SportsPlayer"
 
-    def rb
-      where(position: 'rb').to_a
-    end
+  # embeds_many :players, class_name: "SportsPlayer", cascade_callbacks: true do
+  #   def qb
+  #     where(position: 'qb').to_a
+  #   end
 
-    def wr_te
-      any_in(position: ['wr', 'te']).to_a
-    end
-  end
+  #   def rb
+  #     where(position: 'rb').to_a
+  #   end
 
-  attr_accessible :week_number
+  #   def wr_te
+  #     any_in(position: ['wr', 'te']).to_a
+  #   end
+  # end
+
+  attr_accessible :week_number, :players, :players_attributes
   accepts_nested_attributes_for :players, :allow_destroy => true
 
   state_machine :status, :initial => :pending do
@@ -34,6 +36,26 @@ class SportsWeek
     event :complete do
       transition :active => :completed
     end
+  end
+
+  def qb
+    players.where(position: 'qb').to_a
+  end
+
+  def rb
+    players.where(position: 'rb').to_a
+  end
+
+  def wr_te
+    players.any_in(position: ['wr', 'te']).to_a
+  end
+
+  def wr
+    players.where(position: 'wr').to_a
+  end
+
+  def te
+    players.where(position: 'te').to_a
   end
 
   def eligable_players
@@ -60,5 +82,9 @@ class SportsWeek
     players.collect(&:done)
     self.save
   end
+
+  # def sports_league
+  #   @sports_league ||= SportsLeague.find(sports_league_id) rescue nil
+  # end
 
 end

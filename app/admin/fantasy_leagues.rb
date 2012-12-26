@@ -3,6 +3,17 @@ ActiveAdmin.register FantasyLeague do
 
   controller do
 
+    def all_new_fantasy_week
+      FantasyLeague.all.each do |f_league|
+        f_league.current_week.complete
+        week = f_league.weeks.create!
+        f_league.participants.where(status: :active).each do |participant|
+          week.teams.create! participant: participant
+        end
+      end
+      redirect_to admin_fantasy_leagues_path
+    end
+
     def new_fantasy_week
       fantasy_league = FantasyLeague.find(params[:fantasy_league_id])
       fantasy_league.current_week.complete
@@ -13,6 +24,10 @@ ActiveAdmin.register FantasyLeague do
       redirect_to admin_fantasy_league_fantasy_week_path(fantasy_league, week)
     end
 
+  end
+
+  action_item :only => :index do
+    link_to("New Fantasy Week for ALL", all_new_fantasy_week_admin_fantasy_leagues_path, confirm: "Are you sure you want to increment all leagues?")
   end
 
   action_item :only => :show do
@@ -31,6 +46,8 @@ ActiveAdmin.register FantasyLeague do
     attributes_table do
       row :id
       row :name
+      row :code
+      row :hardcore
       row :sport
       row :status
       row(:owner){|league| league.user}
@@ -57,7 +74,7 @@ ActiveAdmin.register FantasyLeague do
     end
 
     panel "Weeks" do
-      table_for fantasy_league.weeks do
+      table_for fantasy_league.weeks.asc(:week_number) do
         column(:week_number){|week| link_to "Week #{week.week_number}", admin_fantasy_league_fantasy_week_path(fantasy_league, week) }
         column :status
         column :updated_at

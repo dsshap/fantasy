@@ -2,23 +2,25 @@
   .span8
     %h2
       = @fantasy_league.name
+      %small
+        pass-code:
+        = @fantasy_league.code
     - if @league_owner
       %h6
         = link_to "edit league settings", edit_fantasy_league_path(@fantasy_league)
-    -else
+    - else
       %h6
         = link_to "view league settings", fantasy_league_scoring_settings_path(@fantasy_league)
   .span4
-    .pull-right
-      = link_to "edit my team", fantasy_league_fantasy_team_path(@fantasy_league, @team), class: 'btn btn-primary btn-large' if @team.active?
-      = link_to "back to leagues", root_path, class: 'btn btn-large'
-
+    = link_to "edit my team", fantasy_league_fantasy_team_path(@fantasy_league, @team), class: 'btn btn-primary btn-large' if @team.active?
+    = link_to "back to leagues", root_path, class: 'btn btn-large'
+  %br
 
 
 .row
   .span8
     %ul.nav.nav-tabs
-      - @fantasy_league.weeks.each do |week|
+      - @fantasy_league.weeks.asc(:week_number).each do |week|
         %li{:class => week_tab(week)}
           = link_to "week #{week.week_number}", fantasy_league_path(week_number: week.week_number)
     %table.table
@@ -26,14 +28,9 @@
         %tr
           %th
             Team
-          %th
-            QB
-          %th
-            RB
-          %th
-            WR/TE
-          %th
-            WR/TE
+          - @week.teams.first.players.each do |f_player|
+            %th
+              = f_player.position.gsub('_','/').upcase
           %th
             Total
       %tbody
@@ -46,9 +43,18 @@
               = team.players.qb.total
             %td
               = team.players.rb.total
-            - team.players.wr_te.each do |f_player|
+
+            - if @fantasy_league.hardcore
               %td
-                = f_player.total
+                = team.players.te.total
+              - team.players.wr.each do |f_player|
+                %td
+                  = f_player.total
+
+            - else
+              - team.players.wr_te.each do |f_player|
+                %td
+                  = f_player.total
             %td
               = team.get_weeks_total_points
 
@@ -72,18 +78,17 @@
               = show_participant_invitation_actions(inv)
 
   .span4.offset0
-    .pull-right
-      %h2 message board
-      = form_for(@new_post, url: fantasy_league_add_message_board_post_path(@fantasy_league), :html => { class: 'form-inline' }) do |f|
-        = f.text_field :text, label: false, placeholder: "what do u have to say..."
-        = f.submit "post", class: 'btn btn-info'
-      %div{id: 'posts'}
-        = render @posts
-        / - @posts.each do |post|
+    %h2 message board
+    = form_for(@new_post, url: fantasy_league_add_message_board_post_path(@fantasy_league), :html => { class: 'form-inline' }) do |f|
+      = f.text_field :text, label: false, placeholder: "what do u have to say..."
+      = f.submit "post", class: 'btn btn-info'
+    %div{id: 'posts'}
+      = render @posts
+      / - @posts.each do |post|
 
-      .load_more
-        = link_to_next_page @posts, 'load more posts', :remote => true
-      /= paginate @posts
+    .load_more
+      = link_to_next_page @posts, 'load more posts', :remote => true
+    /= paginate @posts
 
 
 

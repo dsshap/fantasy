@@ -15,6 +15,7 @@ Fantasy::Application.routes.draw do
         end
       end
       get :new_fantasy_week
+      get :all_new_fantasy_week, on: :collection
     end
 
     resources :sports_leagues do
@@ -64,6 +65,8 @@ Fantasy::Application.routes.draw do
 
     end
   end
+
+  post :join_league_with_code, :to => "fantasy_leagues#join_league_with_code"
 
   get "sign-in-as/:user_id", :to => "sign_in_as#create", :as => :sign_in_as
 

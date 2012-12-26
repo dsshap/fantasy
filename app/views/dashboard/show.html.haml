@@ -3,7 +3,7 @@
   .span11
     - @fantasy_leagues.in_groups_of(2, false).each do |row|
       - row.each do |league|
-        = link_to(content_tag(:div, (content_tag(:h2, league.name) + content_tag(:h5, "players: #{league.participants.count}")), class: "fantasy-league-info"), fantasy_league_path(league), class: "btn btn-large btn-block btn-fantasy-team span5")
+        = link_to(content_tag(:div,(content_tag(:h2, league.name) + content_tag(:h5, "players: #{league.participants.count}") + content_tag(:h5, "pass-code: #{league.code}")), class: "fantasy-league-info"), fantasy_league_path(league), class: "btn btn-large btn-block btn-fantasy-team span5")
 
 .row.invitations
   .span11
@@ -12,10 +12,18 @@
         - row.each do |invite|
           = link_to(content_tag(:div, (content_tag(:h2, "#{invite.fantasy_league.name} <small>(click to join)</small>".html_safe) + content_tag(:h5, "Players: #{invite.fantasy_league.participants.count}")), class: "fantasy-league-info"), fantasy_league_join_league_path(invite.fantasy_league, invite), class: "btn btn-success btn-large btn-block btn-fantasy-team span5")
 
+.row.join_league
+  .span12
+    %hr
+    %p join a league using its pass-code
+    = form_tag(join_league_with_code_path, :html => { class: 'form-inline' }) do
+      = text_field_tag :code, nil, placeholder: "pass-code"
+      = submit_tag "join", class: 'btn btn-info'
+
 .row.create_new_leagie
   .span12
     %hr
-    %p Want to create a new league and invite some friends, click the button below.
+    %p want to create a new league and invite some friends, click the button below.
     = link_to(content_tag(:h3, "create a new league"), new_fantasy_league_path, class: "btn btn-primary btn-large btn-block btn-create-fantasy-league span5" )
 
 

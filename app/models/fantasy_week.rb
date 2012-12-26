@@ -3,7 +3,7 @@ class FantasyWeek
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  embedded_in :fantasy_league
+  belongs_to :fantasy_league
 
   field :week_number,           type: Integer
 
@@ -65,7 +65,7 @@ class FantasyWeek
   end
 
   def assign_week_number
-    self.week_number = fantasy_league.current_week_number
+    self.week_number = SportsLeague.get_sport("football").current_week_number
   end
 
   def increment_week_number

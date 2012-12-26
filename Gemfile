@@ -23,6 +23,7 @@ end
 gem 'jquery-rails'
 
 gem "mongoid", "3.0.9"
+gem "mongoid_token", "1.1.0"
 #gem 'activeadmin-mongoid', git: 'https://github.com/elia/activeadmin-mongoid.git'
 gem 'activeadmin-mongoid', :git => 'git://github.com/Ostrzy/activeadmin-mongoid.git', :branch => 'filter_support'
 gem "just-datetime-picker", "~> 0.0.5"

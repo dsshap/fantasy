@@ -31,12 +31,12 @@ describe FantasyLeague do
       league = user.fantasy_leagues.create! name: "Test League Name"
 
       league.participants.count.should eq(1)
-    end    
+    end
 
     it 'should create a week' do
       user = FactoryGirl.create(:user)
       league = user.fantasy_leagues.create name: "Test League Name"
-      
+
       league.weeks.count.should eq(1)
     end
 

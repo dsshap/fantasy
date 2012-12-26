@@ -81,6 +81,39 @@ class FantasyLeaguesController < ApplicationController
     end
   end
 
+  def join_league_with_code
+    code = params[:code]
+
+    unless code.nil?
+      f_league = FantasyLeague.find_by_token(code) rescue nil
+      p "1"
+
+      unless f_league.nil?
+        p "2"
+        f_participant = f_league.participants.find_by_user(current_user) rescue nil
+
+        if f_participant.nil?
+          p "3"
+          participant = f_league.participants.create! user: current_user
+          participant.active
+          team = f_league.current_week.teams.create! participant: participant
+          f_league.save
+
+          redirect_to fantasy_league_path(f_league) and return
+        else
+          flash[:error] = "You already belong to this league"
+          redirect_to root_path
+        end
+      else
+        flash[:error] = "We could not find a league matching that pass code."
+        redirect_to root_path
+      end
+    else
+      flash[:errors] = "Code is nil"
+      redirect_to root_path
+    end
+  end
+
   def join_league
     invitation_id = params[:invitation_id]
     inv = FantasyInvitation.find(invitation_id) rescue nil

@@ -6,6 +6,8 @@
       = f.error_notification
       .form-inputs
         = f.input :name, :required => true
+        %p{style: "margin-left:40px;"}
+          = "Hardcore settings? #{@fantasy_league.hardcore}"
 
       %h3
         scoring settings

@@ -6,7 +6,18 @@
 = simple_form_for(@fantasy_league, html: { class: 'form-horizontal no-label-form'}) do |f|
   = f.error_notification
   .form-inputs
-    = f.input :name, :required => true, label: false, placeholder: "league name"
+    %label league name
+    = f.input :name, :required => false, label: false
+    = f.input :hardcore, as: :boolean, :inline_label => 'hardcore settings?', :label => false, input_html: {style: "margin-left: -15px; margin-right:5px;"}
     = f.button :submit, "create", class: 'btn btn-large btn-primary'
+    or
+    = link_to "cancel", root_path
+
+- if current_user.leagues_belong_to.count.zero?
+  %p or join a league using its pass-code
+  = form_tag(join_league_with_code_path, :html => { class: 'form-horizontal' }) do
+    = text_field_tag :code, nil, placeholder: "pass-code"
+    %br
+    = submit_tag "join", class: 'btn btn-info'
     or
     = link_to "cancel", root_path

@@ -2,12 +2,18 @@ class FantasyLeague
 
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Token
 
   belongs_to :user
 
   field :name
   field :current_week_number,      type: Integer, default: 1
   field :sport,                    default: 'football'
+  field :hardcore,                 type: Boolean, default: false
+
+
+  token :length => 8, :contains => :alphanumeric, :field_name => :code, :retry => 4
+
 
   embeds_many :scorings, class_name: 'FantasyScoring', cascade_callbacks: true  do
     def find_by_stat(category, sub_category)
@@ -15,7 +21,6 @@ class FantasyLeague
     end
   end
 
-  embeds_many :weeks, class_name: 'FantasyWeek', cascade_callbacks: true
   embeds_many :participants, class_name: 'FantasyParticipant', cascade_callbacks: true do
     def find_by_user(user)
       where(status: :active, user_id: user.id).first
@@ -23,13 +28,15 @@ class FantasyLeague
   end
 
   has_many :invitations, class_name: 'FantasyInvitation'
+  has_many :weeks, class_name: 'FantasyWeek'
   has_one :message_board
 
-  attr_accessible :name, :current_week_number, :scorings_attributes, :invitations_attributes, :message_board_attributes
+  attr_accessible :name, :code, :hardcore, :current_week_number, :scorings_attributes, :invitations_attributes, :message_board_attributes, :weeks_attributes
   accepts_nested_attributes_for :weeks, :participants, :scorings, :invitations, :message_board, :allow_destroy => true
 
   validates_presence_of :name
 
+  before_create :set_week_number_by_sport
   after_create :add_owner_as_participant
   after_create :create_initial_week
   after_create :setup_scoring
@@ -38,6 +45,10 @@ class FantasyLeague
     event :finish do
       transition :active => :finished
     end
+  end
+
+  def set_week_number_by_sport
+    self.current_week_number = SportsLeague.get_sport("football").current_week_number
   end
 
   def get_total_league_points
@@ -92,6 +103,7 @@ class FantasyLeague
     scorings.create category: "receiving", sub_category: "tds", interval: 1, points: 6
 
     scorings.create category: "fumbles", sub_category: "", interval: 1, points: -2
+    scorings.create category: "misc tds", sub_category: "", interval: 1, points: 6
 
     Evently.record(self, 'created default scoring')
   end
@@ -116,6 +128,10 @@ class FantasyLeague
   def increment_current_week_number
     self.current_week_number += 1
     self.save
+  end
+
+  def to_param
+    id
   end
 
 end

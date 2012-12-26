@@ -22,21 +22,21 @@
               Receiving
             %th(colspan=2)
           %tr
-            - %w[Position Player Status Opponent Yards TDs INTs Yards TDs Receptions Yards TDs Fumbles Total\ Points].each do |th|
+            - %w[Position Player Status Opponent Yards TDs INTs Yards TDs Receptions Yards TDs Fumbles Misc\ Tds Total\ Points].each do |th|
               %th
                 = th
         %tbody
           - @team.players.each do |f_player|
             %tr
               %td
-                = f_player.position.upcase.gsub('_', ' ')
+                = f_player.position.upcase.gsub('_', '/')
               %td
                 = player_action(f_player)
               %td
                 = f_player.player.status if f_player.has_player?
               %td
                 = playing_team(f_player) if f_player.has_player?
-              - [["passing", %w[yards tds ints]], ["rushing", %w[yards tds]], ["receiving", %w[receptions yards tds]], ["fumbles", [""]] ].each do |cat|
+              - [["passing", %w[yards tds ints]], ["rushing", %w[yards tds]], ["receiving", %w[receptions yards tds]], ["fumbles", [""]], ["misc tds", [""]]].each do |cat|
                 - cat[1].each do |sub_cat|
                   %td
                     = player_stat(f_player.player.stats.find_by_stat(cat[0], sub_cat)) if f_player.has_player?

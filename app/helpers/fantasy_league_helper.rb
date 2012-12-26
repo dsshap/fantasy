@@ -50,7 +50,10 @@ module FantasyLeagueHelper
       msg = "tied for "
     end
     msg << index.ordinalize
-    msg
+    if @total_points.count(participant_total_points) > 0
+      msg << "&nbsp;&nbsp;&nbsp;&nbsp;[#{participant_total_points}]"
+    end
+    msg.html_safe
   end
 end
 

@@ -1,6 +1,6 @@
 %blockquote
   %p
-    = message_board_post.text
+    = message_board_post.text.html_safe
   %small
     = message_board_post.participant.user.email_prefix
     @
