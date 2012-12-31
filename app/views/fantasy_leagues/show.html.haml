@@ -77,18 +77,33 @@
               %td
                 = show_participant_invitation_actions(inv)
 
-  .span4.offset0
-    %h2 message board
-    = form_for(@new_post, url: fantasy_league_add_message_board_post_path(@fantasy_league), :html => { class: 'form-inline' }) do |f|
-      = f.text_field :text, label: false, placeholder: "what do u have to say..."
-      = f.submit "post", class: 'btn btn-info'
-    %div{id: 'posts'}
-      = render @posts
-      / - @posts.each do |post|
+  - if @fantasy_league.weeks.count == 1
+    .span4.offset0
+      %h2 message board
+      = form_for(@new_post, url: fantasy_league_add_message_board_post_path(@fantasy_league), :html => { class: 'form-inline' }) do |f|
+        = f.text_field :text, label: false, placeholder: "what do u have to say..."
+        = f.submit "post", class: 'btn btn-info'
+      %div{id: 'posts'}
+        = render @posts
+        / - @posts.each do |post|
 
-    .load_more
-      = link_to_next_page @posts, 'load more posts', :remote => true
-    /= paginate @posts
+      .load_more
+        = link_to_next_page @posts, 'load more posts', :remote => true
+      /= paginate @posts
+
+- if @fantasy_league.weeks.count > 1
+  .row
+    .span8
+      %h2 message board
+      = form_for(@new_post, url: fantasy_league_add_message_board_post_path(@fantasy_league), :html => { class: 'form-inline' }) do |f|
+        = f.text_field :text, label: false, placeholder: "what do u have to say..."
+        = f.submit "post", class: 'btn btn-info'
+      %div{id: 'posts'}
+        = render @posts
+        / - @posts.each do |post|
+
+      .load_more
+        = link_to_next_page @posts, 'load more posts', :remote => true
 
 
 

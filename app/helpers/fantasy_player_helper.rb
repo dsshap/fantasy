@@ -31,7 +31,7 @@ module FantasyPlayerHelper
     if f_player.player.eligible? and !@is_owner
       @team_masks.delete_at(0)
     else
-      "#{f_player.player.opponent} <br /> (at #{(f_player.player.home ? "Home" : "Away")})".html_safe
+      "#{f_player.player.opponent} <br /> (#{(f_player.player.home ? "at Home" : "Away")})".html_safe
     end
   end
 
