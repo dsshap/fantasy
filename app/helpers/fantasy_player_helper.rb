@@ -37,7 +37,7 @@ module FantasyPlayerHelper
 
   def player_stat(player_stat)
     unless player_stat.nil?
-      player_stat.value
+      player_stat.value.round(1)
     end
   end
 

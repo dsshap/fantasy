@@ -35,7 +35,7 @@ class FantasyPlayer
       player.stats.each do |stat|
         score_system = fantasy_score_system.find_by_stat(stat.category, stat.sub_category)
         points = (stat.value.to_f / score_system.interval.to_f) * score_system.points
-        score_hash[score_system.id] = points
+        score_hash[score_system.id] = points.round(1)
       end
     end
     score_hash

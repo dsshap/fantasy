@@ -86,18 +86,17 @@ class FantasyLeaguesController < ApplicationController
 
     unless code.nil?
       f_league = FantasyLeague.find_by_token(code) rescue nil
-      p "1"
 
       unless f_league.nil?
-        p "2"
         f_participant = f_league.participants.find_by_user(current_user) rescue nil
 
         if f_participant.nil?
-          p "3"
           participant = f_league.participants.create! user: current_user
           participant.active
           team = f_league.current_week.teams.create! participant: participant
           f_league.save
+
+          Evently.record(current_user, "join_league_with_code", f_league)
 
           redirect_to fantasy_league_path(f_league) and return
         else
