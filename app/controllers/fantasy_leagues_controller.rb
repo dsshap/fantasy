@@ -88,19 +88,32 @@ class FantasyLeaguesController < ApplicationController
       f_league = FantasyLeague.find_by_token(code) rescue nil
 
       unless f_league.nil?
-        f_participant = f_league.participants.find_by_user(current_user) rescue nil
 
-        if f_participant.nil?
-          participant = f_league.participants.create! user: current_user
-          participant.active
-          team = f_league.current_week.teams.create! participant: participant
-          f_league.save
+        if f_league.weeks.count == 1
 
-          Evently.record(current_user, "join_league_with_code", f_league)
+          f_participant = f_league.participants.find_by_user(current_user) rescue nil
 
-          redirect_to fantasy_league_path(f_league) and return
+          if f_participant.nil?
+            participant = f_league.participants.create! user: current_user
+            participant.active
+            team = f_league.current_week.teams.create! participant: participant
+            f_league.save
+
+            f_league.invitations.where(email: current_user.email).each do |inv|
+              inv.accepted
+            end
+
+
+            Evently.record(current_user, "join_league_with_code", f_league)
+
+            redirect_to fantasy_league_path(f_league) and return
+          else
+            flash[:error] = "You already belong to this league"
+            redirect_to root_path
+          end
+
         else
-          flash[:error] = "You already belong to this league"
+          flash[:error] = "League has already started, you cannot join after the first week is completed"
           redirect_to root_path
         end
       else

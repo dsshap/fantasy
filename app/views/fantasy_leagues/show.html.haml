@@ -57,25 +57,25 @@
                   = f_player.total
             %td
               = team.get_weeks_total_points
-
-    %table.table
-      %thead
-        %tr
-          %th
-            invite league players
-
-      %tbody
-        %tr
-          %td(colspan=2)
-            = form_tag( fantasy_league_new_invitation_path(@fantasy_league.id), {:class => "form-search"} ) do
-              / = f.error_notification
-              = email_field_tag :email, nil, placeholder: "email", class: 'input-medium'
-              = button_tag "invite", class: 'btn btn-success'
-
-        - @pending_inv.each do |inv|
+    - if @fantasy_league.weeks.count == 1
+      %table.table
+        %thead
           %tr
-            %td
-              = show_participant_invitation_actions(inv)
+            %th
+              invite league players
+
+        %tbody
+          %tr
+            %td(colspan=2)
+              = form_tag( fantasy_league_new_invitation_path(@fantasy_league.id), {:class => "form-search"} ) do
+                / = f.error_notification
+                = email_field_tag :email, nil, placeholder: "email", class: 'input-medium'
+                = button_tag "invite", class: 'btn btn-success'
+
+          - @pending_inv.each do |inv|
+            %tr
+              %td
+                = show_participant_invitation_actions(inv)
 
   .span4.offset0
     %h2 message board

@@ -1,7 +1,7 @@
 module FantasyPlayerHelper
 
   def player_action(f_player)
-    msg = nil
+    msg = ''
 
     unless f_player.player.nil?
       if f_player.player.eligible? and !@is_owner
@@ -17,7 +17,7 @@ module FantasyPlayerHelper
         msg << content_tag(:div, links, class: 'pull-right')
       end
     else
-      if @is_owner
+      if f_player.fantasy_team.fantasy_week.active? and @is_owner
         link = link_to "Add Player", fantasy_league_sports_players_path(params[:fantasy_league_id], position: f_player.position, f_player_id: f_player), class: 'btn btn-primary'
         msg = content_tag(:div, link, class: 'pull-right')
       else
@@ -31,7 +31,7 @@ module FantasyPlayerHelper
     if f_player.player.eligible? and !@is_owner
       @team_masks.delete_at(0)
     else
-      f_player.player.opponent
+      "#{f_player.player.opponent} <br /> (at #{(f_player.player.home ? "Home" : "Away")})".html_safe
     end
   end
 

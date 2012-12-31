@@ -23,8 +23,8 @@ class FantasyTeamsController < ApplicationController
               @is_owner = @team.team_owner?(current_user)
               @total_points = f_league.get_total_league_points
 
-              @player_masks = NameMask.where(type: 'player').collect(&:name).sample(4)
-              @team_masks = NameMask.where(type: 'team').collect(&:name).sample(4)
+              @player_masks = NameMask.where(type: 'player').collect(&:name).sample(5)
+              @team_masks = NameMask.where(type: 'team').collect(&:name).sample(5)
 
               Evently.record(current_user, 'viewed', @team)
 

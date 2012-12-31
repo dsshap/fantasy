@@ -30,7 +30,7 @@ class FantasyParticipant
         total_points += team.get_weeks_total_points
       end
     end
-    total_points
+    total_points.round(1)
   end
 
   def get_used_players(position)
@@ -45,7 +45,6 @@ class FantasyParticipant
           end
         end
       else
-        p "#{f_player.class}"
         unless f_player.player.nil?
           used_players.push(f_player.player)
         end

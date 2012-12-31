@@ -1,23 +1,33 @@
-%h2 create a new league
-- if current_user.leagues_belong_to.count.zero?
-  %p
-    Yeah, we’re savvy enough to know you aren’t already in a league, so get one started and invite your friends (that step comes next).
+.row
+  .span12
+    %h2 create a new league
+    - if current_user.leagues_belong_to.count.zero?
+      %p
+        Yeah, we’re savvy enough to know you aren’t already in a league, so get one started and invite your friends (that step comes next).
 
-= simple_form_for(@fantasy_league, html: { class: 'form-horizontal no-label-form'}) do |f|
-  = f.error_notification
-  .form-inputs
-    %label league name
-    = f.input :name, :required => false, label: false
-    = f.input :hardcore, as: :boolean, :inline_label => 'hardcore settings?', :label => false, input_html: {style: "margin-left: -15px; margin-right:5px;"}
-    = f.button :submit, "create", class: 'btn btn-large btn-primary'
-    or
-    = link_to "cancel", root_path
+.row
+  .span4
+    = simple_form_for(@fantasy_league, html: { class: 'form-horizontal no-label-form'}) do |f|
+      = f.error_notification
+      .form-inputs
+        %label league name:
+        = f.input :name, :required => false, label: false
+        = f.input :hardcore, as: :boolean, :inline_label => 'hardcore settings?', :label => false, input_html: {style: "margin-left: -15px; margin-right:5px;"}
+        = f.button :submit, "create", class: 'btn btn-large btn-primary'
+        or
+        = link_to "cancel", root_path
 
-- if current_user.leagues_belong_to.count.zero?
-  %p or join a league using its pass-code
-  = form_tag(join_league_with_code_path, :html => { class: 'form-horizontal' }) do
-    = text_field_tag :code, nil, placeholder: "pass-code"
-    %br
-    = submit_tag "join", class: 'btn btn-info'
-    or
-    = link_to "cancel", root_path
+    - if current_user.leagues_belong_to.count.zero?
+      %p or join a league using its pass-code
+      = form_tag(join_league_with_code_path, :html => { class: 'form-horizontal' }) do
+        = text_field_tag :code, nil, placeholder: "pass-code"
+        %br
+        = submit_tag "join", class: 'btn btn-info'
+        or
+        = link_to "cancel", root_path
+  .span3
+    %p
+      Regular Settings ...
+  .span3
+    %p
+      Hardcore Settings ...

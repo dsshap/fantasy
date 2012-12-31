@@ -68,7 +68,7 @@ class FantasyTeam
   end
 
   def get_weeks_total_points
-    players.collect(&:total).inject(0){|sum,x| sum+x}
+    players.collect(&:total).inject(0){|sum,x| sum+x}.round(1)
   end
 
   def participant_can_only_make_one_team_per_week
