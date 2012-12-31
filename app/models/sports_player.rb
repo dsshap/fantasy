@@ -10,6 +10,7 @@ class SportsPlayer
   field :position
   field :opponent, default: ""
   field :sports_playing_time_id
+  field :home,      type: Boolean, default: false
 
   embeds_many :stats, class_name: 'SportsStatistic', cascade_callbacks: true do
     def find_by_stat(category, sub_category)
@@ -17,7 +18,7 @@ class SportsPlayer
     end
   end
 
-  attr_accessible :name, :team, :position, :opponent, :status, :sports_playing_time_id, :sports_playing_time, :stats_attributes
+  attr_accessible :name, :team, :position, :opponent, :status, :home, :sports_playing_time_id, :sports_playing_time, :stats_attributes
   accepts_nested_attributes_for :stats, :allow_destroy => true
 
   after_create :set_up_stats

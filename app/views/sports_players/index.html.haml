@@ -21,7 +21,7 @@
         - @available_players.sort_by{|p| p.eligible? ? 0 : 1  }.each do |player|
           %tr
             %td
-              = player.name
+              = "#{player.name} (#{(player.home ? "Home" : "Away")})"
             %td
               = player.position
             %td

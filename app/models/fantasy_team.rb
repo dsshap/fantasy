@@ -21,7 +21,7 @@ class FantasyTeam
     end
 
     def wr
-      where(position: 'wr')
+      where(position: 'wr').to_a
     end
 
     def te

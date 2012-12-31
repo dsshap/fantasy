@@ -99,6 +99,7 @@ ActiveAdmin.register SportsPlayer do
       row :opponent
       row :status
       row(:sports_playing_time){|player| player.sports_playing_time.playing_time unless player.sports_playing_time.nil?}
+      row :home
     end
 
     panel "Statistics" do

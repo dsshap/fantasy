@@ -45,6 +45,7 @@ class FantasyParticipant
           end
         end
       else
+        p "#{f_player.class}"
         unless f_player.player.nil?
           used_players.push(f_player.player)
         end
